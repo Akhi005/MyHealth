@@ -1,0 +1,24 @@
+{
+    "slides": [
+      {
+        "src": "https://i.ibb.co/d2TfgN5/Heat-stoke.jpg",
+        "heading":"Heat Stroke",
+        "para":"Heat stroke is the most serious heat-related illness.It occurs when the body can no longer control its temperature: the body’s temperature rises rapidly, the sweating mechanism fails and the body is unable to cool down."
+      },
+      {
+        "src": "https://i.ibb.co/PZ8WqVH/Heart-Attack.jpg",
+        "heading":"Heart Attack",
+        "para":"A heart attack (myocardial infarction) is an extremely dangerous condition that happens because you don’t have enough blood flow to some of your heart muscle.This lack of blood flow can occur because of without blood flow, the affected heart muscle will begin to die."
+      },
+      {
+        "src": "https://i.ibb.co/JknzprM/diabetes.jpg",
+        "heading":"Diabetes",
+        "para":"Diabetes mellitus refers to a group of diseases that affect how the body uses blood sugar (glucose). Glucose is an important source of energy for the cells that make up the muscles and tissues. It's also the brain's main source of fuel.The main cause of diabetes varies by type."
+      },
+      {
+        "src": "https://i.ibb.co/PNccsNG/anemia.jpg",
+        "heading":"Anemia",
+        "para":"Anemia is a blood disorder that happens when you don’t have enough red blood cells or your red blood cells don’t work as they should. Some types of anemia are inherited, but people may also acquire or develop the condition during their lifetimes."
+      }
+    ]
+  }
