@@ -1,5 +1,6 @@
 import React from 'react';
 import './services.css'
+import { Link } from 'react-router-dom';
 const Services = () => {
     return (
         <div className="my-6 text-center">
@@ -16,7 +17,7 @@ const Services = () => {
                     <figure>< img className='w-[50px] h-[50px]' src="https://i.ibb.co/1Q8vz6S/appointment.jpg" /></figure>
                     <h2 className="card-title"> Make Appointment</h2>
                     <div className="overlay card-actions justify-end">
-                        <button className="btn bg-yellow-600 text-white p-2 rounded mt-10">Get the service</button>
+                        <button className="btn bg-yellow-600 text-white p-2 rounded mt-10"><Link to="/appointment">Get the service</Link></button>
                     </div>
                 </div>
                 <div className="card w-72 shadow-2xl main-container flex justify-center items-center">
@@ -37,7 +38,7 @@ const Services = () => {
                     <figure>< img className='w-[80px] h-[60px]' src="https://i.ibb.co/MPT5b6p/ambulance.png" /></figure>
                     <h2 className="card-title"> Call For Ambulances</h2>
                     <div className="overlay card-actions justify-end">
-                        <button className="btn bg-yellow-600 text-white p-2 rounded mt-10">Get the service</button>
+                        <button className="btn bg-yellow-600 text-white p-2 rounded mt-10"><Link to='/ambulance'>Get the service</Link></button>
                     </div>
                 </div>
                 <div className="card w-72 shadow-2xl main-container flex justify-center items-center">

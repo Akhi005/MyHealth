@@ -1,37 +1,39 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
+import React, { useEffect, useState } from 'react';
+import axios from 'axios';
 
 const Service_Card = () => {
+  const [data, setData] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      
+        const response = await axios.get('http://localhost:4000/content');
+        setData(response.data);
+        console.log(response.data);
+        setLoading(false);
+      
+    };
+    fetchData();
+  }, []);
+
+  if (loading) return <p>Loading...</p>;
+  if (error) return <p>Error: {error}</p>;
+
   return (
-    <div className=' text-center  space-x-16'>
+    <div className='text-center space-x-16'>
       <h1 className='text-center text-3xl mt-4 mb-8'>Content</h1>
       <div className='pl-24 flex flex-wrap'>
-
-        <Link to='/heat_stroke'><div className="card w-72 m-4">
-          <img src="https://i.ibb.co/d2TfgN5/Heat-stoke.jpg" className="card-img-top" />
-          <div className="card-body">
-            <p className="card-text text-2xl">Heat Stroke</p>
-          </div>
-        </div>
-        </Link>
-
-        <Link to='/heart_attack'><div className="card w-72 m-4">
-          <img src="https://i.ibb.co/PZ8WqVH/Heart-Attack.jpg" className="card-img-top" />
-          <div className="card-body">
-            <p className="card-text text-2xl">Heart Attack</p>
-          </div>
-        </div>
-        </Link>
-
-        <Link to='/diabetes'>
-          <div className="card w-72 m-4">
-            <img src="https://i.ibb.co/JknzprM/diabetes.jpg" className="card-img-top" />
+        {data.map(item => (
+          <div className="card w-72 m-4" key={item.id} >
+            <img src={item.imgurl} className="card-img-top h-[160px]" alt={item.title} />
             <div className="card-body">
-             <p className="card-text text-2xl">Diabetes</p>
+              <h2 className="card-text text-2xl">{item.title}</h2>
+              <p>{item.about}</p>
             </div>
           </div>
-        </Link>
-
+        ))}
       </div>
     </div>
   );

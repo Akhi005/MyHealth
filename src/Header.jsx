@@ -23,6 +23,7 @@ const Header = () => {
                     <li className='text-white hover:bg-sky-600 p-1 rounded'><a href="/about">About</a></li>
                     <li className='text-white hover:bg-sky-600 p-1 rounded'><a href="/service_card">Content</a></li>
                     <li className='text-white hover:bg-sky-600 p-1 rounded'><a href="/contact">Contact</a></li>
+                    <li className='text-white hover:bg-sky-600 p-1 rounded'><a href="/create_content">Create_Content</a></li>
                 </ul>
                 <div>
                     {user ?
