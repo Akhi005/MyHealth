@@ -1,12 +1,13 @@
 import axios from 'axios';
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 const Appointment = () => {
     const [answer, setAnswer] = useState('');
     const [gender, setGender] = useState('');
     const [appointmentTime, setAppointmentTime] = useState('');
     const [message, setMessage] = useState('');
-
+     const navigate =useNavigate();
     const handleAppointmentTime = (time) => {
         setAppointmentTime(time);
     };
@@ -15,24 +16,29 @@ const Appointment = () => {
         e.preventDefault();
         const formData = {
             patient_name: e.target.patient_name.value,
-            dob: e.target.dob.value,
+            dob: new Date(e.target.dob.value).toISOString(),
             gender: e.target.gender.value,
             yesnoques: answer,
             phone: e.target.phone.value,
-            appointmentdate: e.target.appointmentdate.value,
+            appointmentdate: new Date(e.target.appointmentdate.value).toISOString(),
             doctorapp: e.target.doctorapp.value,
             appointmenttime: appointmentTime
         };
-
+    
+        console.log('Form Data:', formData); 
+    
         try {
             const response = await axios.post('http://localhost:4000/appointment', formData);
-            setMessage('Appointment successfully booked!');
             console.log('User saved:', response.data);
+            setMessage('Appointment successfully booked!');
+            alert('Appointment successfully booked!');
+            navigate('/');
         } catch (error) {
-            setMessage('There was an error booking the appointment.');
             console.error('There was an error creating the content:', error);
+            setMessage('There was an error booking the appointment.');
         }
     };
+    
 
     return (
         <div className='my-4'>

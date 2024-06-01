@@ -47,14 +47,7 @@ app.post('/createcontent', async (req, res) => {
 });
 
 app.post('/appointment', async (req, res) => {
-  const patient_name = 'Test Name';
-  const dob = '2024-05-09';
-  const gender = 'Female';
-  const yesnoques = 'no';
-  const phone = '01871888788';
-  const appointmentdate = '2024-06-08';
-  const doctorapp = 'hhh0212';
-  const appointmenttime = '7.30';
+  const { patient_name, dob, gender, yesnoques, phone, appointmentdate, doctorapp, appointmenttime } = req.body;
 
   console.log('Inserting:', patient_name, dob, gender, yesnoques, phone, appointmentdate, doctorapp, appointmenttime);
   
@@ -63,14 +56,13 @@ app.post('/appointment', async (req, res) => {
       'INSERT INTO appointment (patient_name, dob, gender, yesnoques, phone, appointmentdate, doctorapp, appointmenttime) VALUES ($1, $2, $3, $4, $5, $6, $7, $8) RETURNING *',
       [patient_name, dob, gender, yesnoques, phone, appointmentdate, doctorapp, appointmenttime]
     );
-    console.log('Database response:', result);
+    console.log('Database response:', result.rows[0]);
     res.status(200).json(result.rows[0]);
   } catch (err) {
     console.error('Error inserting into the database:', err.stack);
     res.status(500).send('Server Error');
   }
 });
-
 
 app.get('/appointment', async (req, res) => {
   try {
