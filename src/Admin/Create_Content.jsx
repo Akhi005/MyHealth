@@ -1,7 +1,9 @@
 import React from 'react';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 const Create_Content = () => {
+  const navigate=useNavigate();
   const handleform = async (e) => {
     e.preventDefault();
     const email = e.target.email.value;
@@ -12,7 +14,7 @@ const Create_Content = () => {
     const medicine = e.target.medicine.value;
     const imgurl = e.target.imgurl.value;
     console.log(email, title, about, symptomps, prevent, medicine, imgurl);
-
+     
     try {
       const response = await axios.post('http://localhost:4000/createcontent', {
         title,
@@ -24,6 +26,7 @@ const Create_Content = () => {
         imgurl,
       });
       console.log('User saved:', response);
+      navigate('/');
     } catch (error) {
       console.error('There was an error creating the content:', error);
     }

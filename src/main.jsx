@@ -69,6 +69,11 @@ const router = createBrowserRouter([
         element:<Ambulance></Ambulance>
       },
       {
+        path:'/content/:title',
+        element:<Service_Details></Service_Details>
+      },
+
+      {
            path:'/create_content',
            element:<Create_Content></Create_Content>
       }

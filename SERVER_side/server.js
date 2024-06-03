@@ -46,6 +46,21 @@ app.post('/createcontent', async (req, res) => {
   }
 });
 
+app.get('/content/:title', async (req, res) => {
+  const { title } = req.params;
+  console.log(title);
+  try {
+    const result = await client.query('SELECT * FROM content_read WHERE title = $1', [title]);
+    if (result.rows.length === 0) {
+      return res.status(404).send('Content not found');
+    }
+    res.json(result.rows[0]);
+  } catch (err) {
+    console.error('Error fetching data from the database:', err.message);
+    res.status(500).send('Server Error');
+  }
+});
+
 app.post('/appointment', async (req, res) => {
   const { patient_name, dob, gender, yesnoques, phone, appointmentdate, doctorapp, appointmenttime } = req.body;
 
