@@ -17,6 +17,11 @@ import ErrorPage from './ErrorPage';
 import Create_Content from './Admin/Create_Content';
 import Appointment from './Services_form/Appointment';
 import Ambulance from './Ambulance';
+import Dashboard from './Admin/Dashboard';
+import Patient_Report from './Services_form/Patient_Report';
+import Report_Submit from './Admin/Report_Submit';
+import Report_show from './Admin/Report_show';
+import { ReportsProvider } from './context/ReportsContext';
 
 const router = createBrowserRouter([
   {
@@ -71,11 +76,25 @@ const router = createBrowserRouter([
       {
         path:'/content/:title',
         element:<Service_Details></Service_Details>
+      },{
+        path:'/onlinereport',
+        element:<Patient_Report/>
       },
 
       {
            path:'/create_content',
            element:<Create_Content></Create_Content>
+      },
+      {
+        path:'/dashboard',
+        element:<Dashboard></Dashboard>
+      },
+      {
+        path:'/reportsubmit',
+        element:<Report_Submit></Report_Submit>
+      },{
+        path:'/reportshow',
+        element:<Report_show/>
       }
     ]
   },
@@ -84,7 +103,10 @@ const router = createBrowserRouter([
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
     <AuthProvider>
+   <ReportsProvider>
       <RouterProvider router={router} />
+    
+    </ReportsProvider>
     </AuthProvider>
   </React.StrictMode>
 );

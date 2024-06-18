@@ -8,7 +8,7 @@ import auth from "../../firebase.init";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import { faEye, faEyeSlash } from "@fortawesome/free-regular-svg-icons";
 import { AuthContext } from "../AuthProvider/AuthProvider";
-
+import React from 'react'
 const SigninForm = () => {
   const [user, setUser] = useState(null);
   const nav = useNavigate();
@@ -28,7 +28,7 @@ const SigninForm = () => {
         nav('/');
       })
       .then(error => {
-        console.log("error ", error.me);
+        console.log("error ", error.message);
       })
   }
   const handleGithubSignin = () => {

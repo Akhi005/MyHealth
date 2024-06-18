@@ -22,7 +22,8 @@ const Appointment = () => {
             phone: e.target.phone.value,
             appointmentdate: new Date(e.target.appointmentdate.value).toISOString(),
             doctorapp: e.target.doctorapp.value,
-            appointmenttime: appointmentTime
+            appointmenttime: appointmentTime,
+            report:e.target.report.value
         };
     
         console.log('Form Data:', formData); 
@@ -38,8 +39,6 @@ const Appointment = () => {
             setMessage('There was an error booking the appointment.');
         }
     };
-    
-
     return (
         <div className='my-4'>
             <h1 className='text-2xl text-center'>Doctor Appointment Request Form</h1>
@@ -147,7 +146,11 @@ const Appointment = () => {
                         ))}
                     </div>
                 </div>
-                <input type="submit" value="Submit" className='ml-80 bg-violet-600 text-white px-12 py-2 rounded mb-4' />
+                <div>
+                    <h1>Do you have any report to show?</h1>
+                    <input type="file" name="report" id="" className='p-2' />
+                </div>
+                <input type="submit" value="Submit" className='ml-80 bg-violet-600 mt-10 text-white px-12 py-2 rounded mb-4' />
             </form>
         </div>
     );

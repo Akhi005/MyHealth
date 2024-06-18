@@ -46,13 +46,3 @@ const Service_Details = () => {
 };
 
 export default Service_Details;
-
-
- // const location = useLocation();
-  // const data = location.state || [];
-
-  // if (!data) {
-  //   return <ErrorPage/>;
-  // }
-  // const content = data;
-  // console.log(content);

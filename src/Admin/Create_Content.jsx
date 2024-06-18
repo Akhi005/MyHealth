@@ -41,33 +41,33 @@ const Create_Content = () => {
           <div className='grid grid-cols-2'>
             <div>
               <h1 className='text-white'>Email</h1>
-              <input type="email" className="p-2 rounded-xl my-2 w-[600px]" name="email" required />
+              <input type="email" className="p-2 rounded-xl my-2 w-[480px]" name="email" required />
             </div>
             <div>
               <h1 className='text-white'>Content Title</h1>
               <div className="flex">
-                <input type="text" className="p-2 rounded-xl my-2 w-[600px]" name="heading" required />
+                <input type="text" className="p-2 rounded-xl my-2 w-[480px]" name="heading" required />
               </div>
             </div>
             <div>
               <h1 className='text-white'>About</h1>
-              <textarea name="about" className="p-2 rounded-xl my-2 w-[600px]"></textarea>
+              <textarea name="about" className="p-2 rounded-xl my-2 w-[480px]"></textarea>
             </div>
             <div>
               <h1 className='text-white'>Symptomps</h1>
-              <textarea name="symptomps" className="p-2 rounded-xl my-2 w-[600px]"></textarea>
+              <textarea name="symptomps" className="p-2 rounded-xl my-2 w-[480px]"></textarea>
             </div>
             <div>
               <h1 className='text-white'>How to Prevent?</h1>
-              <textarea name="prevent" className="p-2 rounded-xl my-2 w-[600px]"></textarea>
+              <textarea name="prevent" className="p-2 rounded-xl my-2 w-[480px]"></textarea>
             </div>
             <div>
               <h1 className='text-white'>Medicine + First Aid</h1>
-              <textarea name="medicine" className="p-2 rounded-xl my-2 w-[600px]"></textarea>
+              <textarea name="medicine" className="p-2 rounded-xl my-2 w-[480px]"></textarea>
             </div>
             <div>
               <h1 className='text-white my-2'>ImageURL</h1>
-              <input name="imgurl" type="text" className='w-[500px]' />
+              <input name="imgurl" type="text" className='w-[480px]' />
             </div>
           </div>
           <input className="py-2 px-4 my-4 text-center rounded bg-red-700 text-white ml-[550px]" type="submit" value="Create Content" />

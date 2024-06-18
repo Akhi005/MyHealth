@@ -3,6 +3,7 @@ import { useContext, useEffect, useState } from "react";
 import { createUserWithEmailAndPassword, onAuthStateChanged, sendEmailVerification, updateProfile } from "firebase/auth";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import { AuthContext } from "../AuthProvider/AuthProvider";
+
 const SignupForm = () => {
   const [registerError, setRegisterError] = useState('');
   const [success, setSuccess] = useState('');
