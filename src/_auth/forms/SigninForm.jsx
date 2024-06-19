@@ -52,7 +52,7 @@ const SigninForm = () => {
         const user = result.user;
         console.log("Logged in user:", user);
         setSuccess('User logged in successfully');
-        if(result.user.emailVerified) nav('/');
+        if(result.user) nav('/');
         else alert('please verify your account')
         e.target.reset();
       })

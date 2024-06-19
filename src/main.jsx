@@ -22,6 +22,7 @@ import Patient_Report from './Services_form/Patient_Report';
 import Report_Submit from './Admin/Report_Submit';
 import Report_show from './Admin/Report_show';
 import { ReportsProvider } from './context/ReportsContext';
+import User_List from './Admin/User_List';
 
 const router = createBrowserRouter([
   {
@@ -95,6 +96,9 @@ const router = createBrowserRouter([
       },{
         path:'/reportshow',
         element:<Report_show/>
+      },{
+        path:'/users',
+        element:<User_List/>
       }
     ]
   },

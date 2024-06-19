@@ -1,67 +1,75 @@
+import React, { useState, useContext } from 'react';
 import { Link, useNavigate } from "react-router-dom";
-import { useContext, useEffect, useState } from "react";
-import { createUserWithEmailAndPassword, onAuthStateChanged, sendEmailVerification, updateProfile } from "firebase/auth";
+import { sendEmailVerification, updateProfile } from "firebase/auth";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import { AuthContext } from "../AuthProvider/AuthProvider";
+import axios from 'axios';
 
 const SignupForm = () => {
   const [registerError, setRegisterError] = useState('');
   const [success, setSuccess] = useState('');
   const [loading, setLoading] = useState(false);
   const [showpassword, setShowpassword] = useState(false);
-  const [showconfirmpassword,setShowconfirmpassword]=useState(false);
+  const [showconfirmpassword, setShowconfirmpassword] = useState(false);
   const navigate = useNavigate();
-  const {createUser}=useContext(AuthContext);
+  const { createUser } = useContext(AuthContext);
 
   const handleRegister = async (e) => {
     e.preventDefault();
-    setLoading(false);
+    setLoading(true);
+    setRegisterError('');
+    setSuccess('');
+
     const name = e.target.name.value;
     const email = e.target.email.value;
     const password = e.target.password.value;
     const confirmPassword = e.target.confirm_password.value;
     const terms = e.target.terms.checked;
-    console.log(name,email,password);
+
     if (password !== confirmPassword) {
-      setRegisterError(<p className="text-xl">Passwords do not match</p>);
+      setRegisterError('Passwords do not match');
       setLoading(false);
       return;
     }
-    if(password.length <6 && password.length>0){
-      setRegisterError(<p className="text-xl">Password should be at least 6 character</p>);
-      return ;
-    }
-    if(name.length==0){
-      setRegisterError(<p className="text-xl">Please fill up the form</p>);
-      return ;
-    }
-    if(!/[A-Z]/.test(password)){
-      setRegisterError('Your Password should have at least one upper case character');
+    if (password.length < 6) {
+      setRegisterError('Password should be at least 6 characters');
+      setLoading(false);
       return;
     }
-    if(!terms){
+    if (!/[A-Z]/.test(password)) {
+      setRegisterError('Your Password should have at least one uppercase character');
+      setLoading(false);
+      return;
+    }
+    if (!terms) {
       setRegisterError('Please accept our terms and conditions.');
+      setLoading(false);
       return;
     }
-    createUser(email, password)
-  .then(result => {
-    console.log(result.user);
-    alert('Please check your email and verify the account');
-    sendEmailVerification(result.user)
-      .then(() => {
-        setSuccess('User created successfully');
-          navigate('/signin');
-      })
-    updateProfile(result.user,{
-      displayName:name,
-      photoURL:user.photoURL,
-    })
-  })
-  .catch(error => {
-    console.error(error.message);
-    setRegisterError('Email already used');
-  });
 
+    try {
+      const result = await createUser(email, password);
+      console.log(result.user);
+      alert('Please check your email and verify the account');
+
+      const isDoctor = email.includes('doctor');
+      const userData = {
+        pname: !isDoctor ? name : '',
+        doctorname: isDoctor ? name : '',
+        pmail: !isDoctor ? email : '',
+        doctormail: isDoctor ? email : '',
+      };
+
+      console.log('Sending user data to backend:', userData);
+      await axios.post('http://localhost:4000/users', userData);
+
+      setSuccess('User created successfully.');
+      navigate('/signin');
+    } catch (error) {
+      setRegisterError(error.message);
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -72,43 +80,37 @@ const SignupForm = () => {
         <form onSubmit={handleRegister} className="bg-sky-300 relative shadow-2xl mt-4 rounded ml-[450px] p-12 w-[500px]">
           <div>
             <h1>Name</h1>
-            <input type="text" className="p-2 rounded-xl my-2 w-full" name="name" required/>
+            <input type="text" className="p-2 rounded-xl my-2 w-full" name="name" required />
           </div>
           <div>
             <h1>Email</h1>
-            <input type="email" className="p-2 rounded-xl my-2 w-full" name="email" required/>
+            <input type="email" className="p-2 rounded-xl my-2 w-full" name="email" required />
           </div>
           <div>
             <h1>Password</h1>
             <div className="flex">
-            <input type={showpassword ? "text" : "password"} className="p-2 rounded-xl my-2 w-full" name="password"/>
-            <span className="absolute ml-96 text-gray-500 mt-3" onClick={() => setShowpassword(!showpassword)}>{
-              showpassword ?
-              <FaEyeSlash></FaEyeSlash>:<FaEye></FaEye>
-              //  <FontAwesomeIcon icon={faEye} />:<FontAwesomeIcon icon={faEyeSlash} />
-            }</span>
+              <input type={showpassword ? "text" : "password"} className="p-2 rounded-xl my-2 w-full" name="password" required />
+              <span className="absolute ml-96 text-gray-500 mt-3 cursor-pointer" onClick={() => setShowpassword(!showpassword)}>
+                {showpassword ? <FaEyeSlash /> : <FaEye />}
+              </span>
             </div>
           </div>
           <div>
             <h1>Confirm Password</h1>
             <div className="flex">
-            <input type={showconfirmpassword ? "text" : "password"} className="p-2 rounded-xl my-2 w-full" name="confirm_password" />
-            <span className="absolute ml-96 text-gray-500 mt-3" onClick={() => setShowconfirmpassword(!showconfirmpassword)}>{
-              showconfirmpassword ?
-              <FaEyeSlash></FaEyeSlash>:<FaEye></FaEye>
-              //  <FontAwesomeIcon icon={faEye} />:<FontAwesomeIcon icon={faEyeSlash} />
-            }</span>
+              <input type={showconfirmpassword ? "text" : "password"} className="p-2 rounded-xl my-2 w-full" name="confirm_password" required />
+              <span className="absolute ml-96 text-gray-500 mt-3 cursor-pointer" onClick={() => setShowconfirmpassword(!showconfirmpassword)}>
+                {showconfirmpassword ? <FaEyeSlash /> : <FaEye />}
+              </span>
             </div>
           </div>
           <div>
-            <input type="checkbox" name="terms" /><label htmlFor="terms">Accept our terms ans conditions</label>
+            <input type="checkbox" name="terms" /><label htmlFor="terms">Accept our terms and conditions</label>
           </div>
           <button className="py-2 px-4 mt-4 text-center rounded bg-sky-600 text-white ml-36" type="submit" disabled={loading}>
-            {
-              loading ? 'Signing Up...' : 'Sign Up'
-            }
+            {loading ? 'Signing Up...' : 'Sign Up'}
           </button>
-          <p className="pt-2">Already have an account? Do <Link to="/signin"><span className="text-blue-700">Sign in</span></Link></p>
+          <p className="pt-2">Already have an account? <Link to="/signin"><span className="text-blue-700">Sign in</span></Link></p>
 
           {registerError && <p className="text-red-500">{registerError}</p>}
           {success && <p className="text-green-500">{success}</p>}

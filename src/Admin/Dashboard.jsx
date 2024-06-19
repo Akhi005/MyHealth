@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import Create_Content from './Create_Content';
 import Report_Submit from './Report_Submit';
-import Patient_List from './Patient_List';
+import User_List from './User_List';
+
 // import Doctor_Appoint from './Doctor_Appoint';
 // import Test_Booked from './Test_Booked';
 
@@ -31,8 +32,8 @@ const Dashboard = () => {
                 return <Create_Content />;
             case 'ReportSubmit':
                 return <Report_Submit />;
-            case 'PatientList':
-                return <Patient_List />;
+            case 'UserList':
+                return <User_List />;
              case 'DoctorAppoint':
                  return <Doctor_Appoint />;
             case 'TestBooked':
@@ -75,8 +76,8 @@ const Dashboard = () => {
                     <li onClick={() => setActiveComponent('ReportSubmit')} className='my-2 hover:bg-blue-500 cursor-pointer'>
                         Report Submit
                     </li>
-                    <li onClick={() => setActiveComponent('PatientList')} className='my-2 hover:bg-blue-500 cursor-pointer'>
-                        Patient's List
+                    <li onClick={() => setActiveComponent('UserList')} className='my-2 hover:bg-blue-500 cursor-pointer'>
+                        Users List
                     </li>
                     <li onClick={() => setActiveComponent('DoctorAppoint')} className='my-2 hover:bg-blue-500 cursor-pointer'>
                         Doctor's Appointment

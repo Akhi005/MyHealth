@@ -106,7 +106,40 @@ app.put('/reports/:pcode/status', async (req, res) => {
     res.status(500).json({ error: 'Internal server error' });
   }
 });
-
+app.post('/users', async (req, res) => {
+  const userData = req.body;
+  console.log('User data received:', userData);
+  const { pname, doctorname, pmail, doctormail } = userData;
+  if (!pname && !doctorname) {
+    res.status(400).send('Either patient name or doctor name is required');
+    return;
+  }
+  if (!pmail && !doctormail) {
+    res.status(400).send('Either patient email or doctor email is required');
+    return;
+  }
+  const values = {
+    pname: pname || '',
+    doctorname: doctorname || '',
+    pmail: pmail || '',
+    doctormail: doctormail || '',
+  };
+    const result = await client.query(
+      `INSERT INTO users (pname, doctorname, pmail, doctormail) VALUES ($1, $2, $3, $4) RETURNING *`,
+      [values.pname, values.doctorname, values.pmail, values.doctormail]
+    );
+    console.log('User data inserted:', result.rows[0]);
+    res.status(201).send(result.rows[0]);
+});
+app.get('/users', async (req, res) => {
+  try {
+    const result = await client.query('SELECT * FROM users');
+    res.json(result.rows);
+  } catch (err) {
+    console.error('Error fetching users:', err.message);
+    res.status(500).send('Server Error');
+  }
+});
 app.post('/reportsubmit', async (req, res) => {
   const { pname, pcode, doctorcode, date, reportfile } = req.body;
   // const reportfile = req.files.reportfile;
