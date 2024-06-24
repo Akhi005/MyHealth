@@ -5,7 +5,7 @@ import User_List from './User_List';
 import { AuthContext } from '../_auth/AuthProvider/AuthProvider';
 import { useNavigate } from 'react-router-dom';
 
-// import Doctor_Appoint from './Doctor_Appoint';
+import Doctor_Appoint from './Doctor_Appoint';
 // import Test_Booked from './Test_Booked';
 const Dashboard = () => {
     const navigate=useNavigate();

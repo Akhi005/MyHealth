@@ -187,6 +187,7 @@ app.get('/appointment', async (req, res) => {
   try {
     const result = await client.query('SELECT * FROM appointment');
     res.json(result.rows);
+    console.log(result);
   } catch (err) {
     console.error('Error fetching data from the database:', err.message);
     res.status(500).send('Server Error');
