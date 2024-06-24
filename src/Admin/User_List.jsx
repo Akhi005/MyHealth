@@ -3,6 +3,13 @@ import PropTypes from 'prop-types';
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 import Box from '@mui/material/Box';
+import Table from '@mui/material/Table';
+import TableBody from '@mui/material/TableBody';
+import TableCell from '@mui/material/TableCell';
+import TableContainer from '@mui/material/TableContainer';
+import TableHead from '@mui/material/TableHead';
+import TableRow from '@mui/material/TableRow';
+import Paper from '@mui/material/Paper';
 import axios from 'axios';
 
 function CustomTabPanel(props) {
@@ -43,12 +50,10 @@ export default function User_List() {
   useEffect(() => {
     axios.get('http://localhost:4000/users')
       .then(res => {
-        console.log(res.data);
         setAllUser(res.data);
         setLoading(false);
       })
       .catch(err => {
-        console.log(err.message);
         setError('Failed to fetch users');
         setLoading(false);
       });
@@ -79,43 +84,94 @@ export default function User_List() {
         </Tabs>
       </Box>
       <CustomTabPanel value={value} index={0}>
-        <ul>
-          {alluser.length > 0 ? (
-            alluser.map(user => (
-              <li key={user.pcode || user.doctorcode}>
-                {user.pname || user.doctorname} - {user.pmail || user.doctormail}
-              </li>
-            ))
-          ) : (
-            <li>No users found</li>
-          )}
-        </ul>
+        <TableContainer component={Paper}>
+          <Table sx={{ minWidth: 650 }} aria-label="all users table">
+            <TableHead className=' bg-gray-300'>
+              <TableRow>
+                <TableCell>Patient Code</TableCell>
+                <TableCell>Patient Name</TableCell>
+                <TableCell>Patient Email</TableCell>
+                <TableCell>Doctor Code</TableCell>
+                <TableCell>Doctor Name</TableCell>
+                <TableCell>Doctor Email</TableCell>
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {alluser.length > 0 ? (
+                alluser.map(user => (
+                  <TableRow key={user.pcode || user.doctorcode}>
+                    <TableCell>{user.pcode || '---'}</TableCell>
+                    <TableCell>{user.pname || '---'}</TableCell>
+                    <TableCell>{user.pmail || '---'}</TableCell>
+                    <TableCell>{user.doctorcode || '---'}</TableCell>
+                    <TableCell>{user.doctorname || '---'}</TableCell>
+                    <TableCell>{user.doctormail || '---'}</TableCell>
+                  </TableRow>
+                ))
+              ) : (
+                <TableRow>
+                  <TableCell colSpan={6}>No users found</TableCell>
+                </TableRow>
+              )}
+            </TableBody>
+          </Table>
+        </TableContainer>
       </CustomTabPanel>
       <CustomTabPanel value={value} index={1}>
-        <ul>
-          {doctorlist.length > 0 ? (
-            doctorlist.map(doctor => (
-              <li key={doctor.doctorcode}>
-                {doctor.doctorname} - {doctor.doctormail}
-              </li>
-            ))
-          ) : (
-            <li>No doctors found</li>
-          )}
-        </ul>
+        <TableContainer component={Paper}>
+          <Table sx={{ minWidth: 650 }} aria-label="doctor list table">
+            <TableHead className=' bg-gray-300'>
+              <TableRow>
+                <TableCell>Doctor Code</TableCell>
+                <TableCell>Doctor Name</TableCell>
+                <TableCell>Doctor Email</TableCell>
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {doctorlist.length > 0 ? (
+                doctorlist.map(doctor => (
+                  <TableRow key={doctor.doctorcode}>
+                    <TableCell>{doctor.doctorcode}</TableCell>
+                    <TableCell>{doctor.doctorname}</TableCell>
+                    <TableCell>{doctor.doctormail}</TableCell>
+                  </TableRow>
+                ))
+              ) : (
+                <TableRow>
+                  <TableCell colSpan={3}>No doctors found</TableCell>
+                </TableRow>
+              )}
+            </TableBody>
+          </Table>
+        </TableContainer>
       </CustomTabPanel>
       <CustomTabPanel value={value} index={2}>
-        <ul>
-          {patientlist.length > 0 ? (
-            patientlist.map(patient => (
-              <li key={patient.pcode}>
-                {patient.pname} - {patient.pmail}
-              </li>
-            ))
-          ) : (
-            <li>No patients found</li>
-          )}
-        </ul>
+        <TableContainer component={Paper}>
+          <Table sx={{ minWidth: 650 }} aria-label="patient list table">
+            <TableHead className=' bg-gray-300'>
+              <TableRow>
+                <TableCell>Patient Code</TableCell>
+                <TableCell>Patient Name</TableCell>
+                <TableCell>Patient Email</TableCell>
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {patientlist.length > 0 ? (
+                patientlist.map(patient => (
+                  <TableRow key={patient.pcode}>
+                    <TableCell>{patient.pcode}</TableCell>
+                    <TableCell>{patient.pname}</TableCell>
+                    <TableCell>{patient.pmail}</TableCell>
+                  </TableRow>
+                ))
+              ) : (
+                <TableRow>
+                  <TableCell colSpan={3}>No patients found</TableCell>
+                </TableRow>
+              )}
+            </TableBody>
+          </Table>
+        </TableContainer>
       </CustomTabPanel>
     </Box>
   );

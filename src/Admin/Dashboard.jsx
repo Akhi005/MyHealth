@@ -1,14 +1,20 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import Create_Content from './Create_Content';
 import Report_Submit from './Report_Submit';
 import User_List from './User_List';
+import { AuthContext } from '../_auth/AuthProvider/AuthProvider';
+import { useNavigate } from 'react-router-dom';
 
 // import Doctor_Appoint from './Doctor_Appoint';
 // import Test_Booked from './Test_Booked';
-
 const Dashboard = () => {
+    const navigate=useNavigate();
+    const {logOut}=useContext(AuthContext);
     const [activeComponent, setActiveComponent] = useState(null);
-
+    const handleLogout=()=>{
+       logOut()
+       .then(()=>navigate('/signin'))
+    }
     const renderComponent = () => {
         switch (activeComponent) {
             case 'Home': return <div className="relative h-full w-full">
@@ -83,11 +89,11 @@ const Dashboard = () => {
                         Doctor's Appointment
                     </li>
                     <li onClick={() => setActiveComponent('TestBooked')} className='my-2 hover:bg-blue-500 cursor-pointer'>
-                        Test Booking
+                        Service Booking
                     </li> 
                 </ul>
                 <hr />
-                <button className='my-4 btn btn-primary'>Sign Out</button>
+                <button className='my-4 btn btn-primary' onClick={handleLogout}>Sign Out</button>
             </div>
             <div className="flex-grow ">
                 {renderComponent()}

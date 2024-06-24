@@ -76,16 +76,7 @@ app.get('/reports', async (req, res) => {
     res.status(500).send('Server Error');
   }
 });
-app.get('/download', async (req, res) => {
-  const { file } = req.query;
-  const filePath = path.join(uploadDir, file);
-  res.download(filePath, file, (err) => {
-    if (err) {
-      console.error('Error downloading file:', err);
-      res.status(500).send('Server Error');
-    }
-  });
-});
+
 app.put('/reports/:pcode/status', async (req, res) => {
   const { pcode } = req.params;
   const { status } = req.body;
@@ -106,10 +97,12 @@ app.put('/reports/:pcode/status', async (req, res) => {
     res.status(500).json({ error: 'Internal server error' });
   }
 });
+
 app.post('/users', async (req, res) => {
   const userData = req.body;
   console.log('User data received:', userData);
   const { pname, doctorname, pmail, doctormail } = userData;
+
   if (!pname && !doctorname) {
     res.status(400).send('Either patient name or doctor name is required');
     return;
@@ -118,19 +111,29 @@ app.post('/users', async (req, res) => {
     res.status(400).send('Either patient email or doctor email is required');
     return;
   }
-  const values = {
-    pname: pname || '',
-    doctorname: doctorname || '',
-    pmail: pmail || '',
-    doctormail: doctormail || '',
-  };
-    const result = await client.query(
-      `INSERT INTO users (pname, doctorname, pmail, doctormail) VALUES ($1, $2, $3, $4) RETURNING *`,
-      [values.pname, values.doctorname, values.pmail, values.doctormail]
-    );
+
+  try {
+    let result;
+    if (pname) {
+      result = await client.query(
+        `INSERT INTO users (pname, pcode, pmail) VALUES ($1, nextval('patient_code_seq'), $2) RETURNING *`,
+        [pname, pmail]
+      );
+    } else if (doctorname) {
+      result = await client.query(
+        `INSERT INTO users (doctorname, doctorcode, doctormail) VALUES ($1, nextval('doctor_code_seq'), $2) RETURNING *`,
+        [doctorname, doctormail]
+      );
+    }
+
     console.log('User data inserted:', result.rows[0]);
     res.status(201).send(result.rows[0]);
+  } catch (err) {
+    console.error('Error inserting user data:', err.message);
+    res.status(500).send('Server Error');
+  }
 });
+
 app.get('/users', async (req, res) => {
   try {
     const result = await client.query('SELECT * FROM users');
@@ -140,20 +143,28 @@ app.get('/users', async (req, res) => {
     res.status(500).send('Server Error');
   }
 });
+
 app.post('/reportsubmit', async (req, res) => {
-  const { pname, pcode, doctorcode, date, reportfile } = req.body;
-  // const reportfile = req.files.reportfile;
+  const { pname, pcode, doctorcode, reportfile, pmail, date } = req.body;
+
+  console.log("Received report submit data:", { pname, pcode, doctorcode, reportfile, pmail, date });
+
+  if (!pname || !pcode || !doctorcode || !date || !reportfile || !pmail) {
+    console.error('Missing required fields');
+    return res.status(400).send('Missing required fields');
+  }
+
   try {
-    // const filePath = path.join(uploadDir, reportfile.name);
-    // await fs.writeFile(filePath, reportfile.data);
     const status = "Unpaid";
     const result = await client.query(
-      'INSERT INTO Report_Submit(pname, pcode, doctorcode, reportfile, date, status) VALUES ($1, $2, $3, $4, $5, $6) RETURNING *',
-      [pname, pcode, doctorcode, reportfile, date, status]
+      'INSERT INTO report_submit(pname, pcode, doctorcode, reportfile, pmail, date, status) VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING *',
+      [pname, pcode, doctorcode, reportfile, pmail, date, status]
     );
+
+    console.log('Report submitted successfully:', result.rows[0]);
     res.status(200).json(result.rows[0]);
   } catch (err) {
-    console.error('Error inserting into the database:', err.stack);
+    console.error('Error inserting into the database:', err.message);
     res.status(500).send('Server Error');
   }
 });
@@ -179,6 +190,26 @@ app.get('/appointment', async (req, res) => {
   } catch (err) {
     console.error('Error fetching data from the database:', err.message);
     res.status(500).send('Server Error');
+  }
+});
+
+app.use('/uploads', express.static(uploadDir));
+
+app.get('/download', async (req, res) => {
+  const { file } = req.query;
+  const filePath = path.join(uploadDir, file);
+
+  try {
+    await fs.access(filePath);
+    res.download(filePath, file, (err) => {
+      if (err) {
+        console.error('Error downloading file:', err);
+        res.status(500).send('Server Error');
+      }
+    });
+  } catch (err) {
+    console.error('File not found:', err);
+    res.status(404).send('File not found');
   }
 });
 

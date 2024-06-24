@@ -12,6 +12,7 @@ export const ReportsProvider = ({ children }) => {
         axios.get('http://localhost:4000/reports')
             .then(response => {
                 setReports(response.data);
+                console.log(response.data);
             })
             .catch(error => {
                 console.error('Error fetching reports:', error);

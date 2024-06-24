@@ -6,7 +6,7 @@ import { AuthContext } from "../AuthProvider/AuthProvider";
 import axios from 'axios';
 
 const SignupForm = () => {
-  const [registerError, setRegisterError] = useState('');
+  const [registerError, setRegisterError] = useState();
   const [success, setSuccess] = useState('');
   const [loading, setLoading] = useState(false);
   const [showpassword, setShowpassword] = useState(false);
@@ -50,8 +50,6 @@ const SignupForm = () => {
     try {
       const result = await createUser(email, password);
       console.log(result.user);
-      alert('Please check your email and verify the account');
-
       const isDoctor = email.includes('doctor');
       const userData = {
         pname: !isDoctor ? name : '',
@@ -59,19 +57,18 @@ const SignupForm = () => {
         pmail: !isDoctor ? email : '',
         doctormail: isDoctor ? email : '',
       };
-
+       
       console.log('Sending user data to backend:', userData);
       await axios.post('http://localhost:4000/users', userData);
-
       setSuccess('User created successfully.');
-      navigate('/signin');
+      if(isDoctor) navigate('/dashboard');
+     else  navigate('/signin');
     } catch (error) {
       setRegisterError(error.message);
     } finally {
       setLoading(false);
     }
   };
-
   return (
     <div>
       <img className='absolute w-full h-100' src="https://i.ibb.co/vzy5Zx1/signup-bg.jpg" alt="signup background" />

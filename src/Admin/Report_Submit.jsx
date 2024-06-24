@@ -12,18 +12,24 @@ const ReportSubmit = () => {
     const navigate=useNavigate();
     const handleReportSubmit = async (e) => {
         e.preventDefault();
-        const formData = new FormData();
-        formData.append('pname', e.target.pname.value);
-        formData.append('pcode', e.target.pcode.value);
-        formData.append('doctorcode', e.target.doctorcode.value);
-        formData.append('reportfile', e.target.reportfile.value);
-        formData.append('date', currentDate.toISOString().split('T')[0]);
+       
+        const pname = e.target.pname.value;
+        const pcode = e.target.pcode.value;
+        const pmail = e.target.pmail.value;
+        const doctorcode = e.target.doctorcode.value;
+        const reportfile = e.target.reportfile.value;
+        const date = currentDate.toISOString().split('T')[0];
+    
+        // Logging the data being sent
+        console.log("Submitting report:", { pname, pcode, doctorcode, reportfile, pmail, date });
+    
         try {
-            const response = await axios.post('http://localhost:4000/reportsubmit', formData, {
+            const response = await axios.post('http://localhost:4000/reportsubmit', {  pname, pcode, doctorcode, reportfile, pmail, date}, {
                 headers: {
-                    'Content-Type': 'multipart/form-data',
+                    'Content-Type': 'application/json',  
                 },
             });
+    
             setStatusMessage('Report submitted successfully.');
             console.log('Report submitted successfully:', response.data);
             navigate('/reportshow');
@@ -32,7 +38,6 @@ const ReportSubmit = () => {
             console.error('Error submitting report:', error);
         }
     };
-
     return (
         <div className="relative">
             <img src="https://i.ibb.co/SypHYjm/download.jpg" alt="Background" className="absolute w-full h-100" />
@@ -42,6 +47,8 @@ const ReportSubmit = () => {
                 <input type="text" className="w-full mb-4 p-2 rounded border" name="pname" required />
                 <label className="block mb-2">Patient Code</label>
                 <input type="text" className="w-full mb-4 p-2 rounded border" name="pcode" required />
+                <label className="block mb-2">Patient email</label>
+                <input type="text" className="w-full mb-4 p-2 rounded border" name="pmail" required />
                 <label className="block mb-2">Doctor Code</label>
                 <input type="text" className="w-full mb-4 p-2 rounded border" name="doctorcode" required />
                 <label className="block mb-2">Report File Link</label>

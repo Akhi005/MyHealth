@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { Card, CardBody, Typography } from "@material-tailwind/react";
 import { AuthContext } from '../_auth/AuthProvider/AuthProvider';
 import { ReportsContext } from '../context/ReportsContext';
@@ -7,6 +7,14 @@ import axios from 'axios';
 const Report_show = () => {
     const { user } = useContext(AuthContext);
     const { reports, setReports } = useContext(ReportsContext);
+    const [filterreport, setFilterreport] = useState([]);
+
+    useEffect(() => {
+        if (user && reports) {
+            const filterrep = reports.filter(report => report.pmail === user.email);
+            setFilterreport(filterrep);
+        }
+    }, [reports, user]);
 
     const handleStatusChange = async (pcode) => {
         try {
@@ -24,7 +32,7 @@ const Report_show = () => {
         }
     };
 
-    const TABLE_HEAD = ["Patient name", "Patient Reg code", "Doctor's name", "Status", "Date"];
+    const TABLE_HEAD = ["Patient name", "Patient Reg code", "Doctor's code", "Status", "Date"];
 
     return (
         <div>
@@ -49,7 +57,7 @@ const Report_show = () => {
                             </tr>
                         </thead>
                         <tbody>
-                            {reports.map((report, index) => (
+                            {filterreport && filterreport.map((report, index) => (
                                 <tr key={index}>
                                     <td className="p-4">
                                         <Typography
@@ -57,7 +65,7 @@ const Report_show = () => {
                                             color="blue-gray"
                                             className="font-normal"
                                         >
-                                            {user ? user.displayName : "Unknown"}
+                                            {report.pname}
                                         </Typography>
                                     </td>
                                     <td className="p-4">
@@ -80,7 +88,7 @@ const Report_show = () => {
                                     </td>
                                     <td className="p-4">
                                         <button
-                                            onClick={() => handleStatusChange(report.pcode)}  
+                                            onClick={() => handleStatusChange(report.pcode)}
                                             disabled={report.status === 'Paid'}
                                             className={`px-2 py-1 text-sm font-medium rounded ${report.status === 'Paid' ? 'bg-green-500 text-white' : 'bg-gray-500 text-white'}`}
                                         >
@@ -96,7 +104,6 @@ const Report_show = () => {
                                             {report.date}
                                         </Typography>
                                     </td>
-                                    
                                 </tr>
                             ))}
                         </tbody>

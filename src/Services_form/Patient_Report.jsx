@@ -1,13 +1,29 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { Card, CardBody, Typography, Chip } from "@material-tailwind/react";
 import { AuthContext } from '../_auth/AuthProvider/AuthProvider';
 import { ReportsContext } from '../context/ReportsContext';
 
 const Patient_Report = () => {
     const { user } = useContext(AuthContext);
-    const { reports } = useContext(ReportsContext);
-
+    const { reports, loading, error } = useContext(ReportsContext);
     const TABLE_HEAD = ["Patient name", "Patient Reg code", "Doctor's name", "Status", "Date", "File"];
+    const [filteredReports, setFilteredReports] = useState([]);
+
+    useEffect(() => {
+        if (reports && user) {
+            const filtered = reports.filter(report => report.pmail === user.email);
+            setFilteredReports(filtered);
+            console.log(filtered);
+        }
+    }, [reports, user]);
+
+    if (loading) {
+        return <p>Loading...</p>; 
+    }
+
+    if (error) {
+        return <p>Error: {error.message}</p>; 
+    }
 
     return (
         <div>
@@ -32,33 +48,30 @@ const Patient_Report = () => {
                             </tr>
                         </thead>
                         <tbody>
-                            {reports.map((report, index) => (
-                                <tr key={index}>
+                            {filteredReports.map((report, index) => (
+                                <tr key={index} className="hover:bg-gray-50">
                                     <td className="p-4">
                                         <Typography
                                             variant="small"
                                             color="blue-gray"
-                                            className="font-normal"
-                                        >
-                                            {user ? user.displayName : "Unknown"}
+                                            className="font-normal">
+                                            {report.pname || 'N/A'}
                                         </Typography>
                                     </td>
                                     <td className="p-4">
                                         <Typography
                                             variant="small"
                                             color="blue-gray"
-                                            className="font-normal opacity-70"
-                                        >
-                                            {report.pcode}
+                                            className="font-normal opacity-70">
+                                            {report.pcode || 'N/A'}
                                         </Typography>
                                     </td>
                                     <td className="p-4">
                                         <Typography
                                             variant="small"
                                             color="blue-gray"
-                                            className="font-normal"
-                                        >
-                                            {report.doctorcode}
+                                            className="font-normal">
+                                            {report.doctorname || 'N/A'}
                                         </Typography>
                                     </td>
                                     <td className="p-4">
@@ -73,13 +86,12 @@ const Patient_Report = () => {
                                         <Typography
                                             variant="small"
                                             color="blue-gray"
-                                            className="font-normal"
-                                        >
-                                            {report.date}
+                                            className="font-normal">
+                                            {report.date || 'N/A'}
                                         </Typography>
                                     </td>
                                     <td className="p-4">
-                                        <a href={`http://localhost:4000/download?file=${encodeURIComponent(report.reportfile)}`} className="text-blue-500 hover:underline">
+                                        <a href={`${(report.reportfile)}`} className="text-blue-500 hover:underline">
                                             Download
                                         </a>
                                     </td>
