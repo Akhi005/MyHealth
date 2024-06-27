@@ -7,14 +7,11 @@ const Doctor_Appoint = () => {
 
   useEffect(() => {
     axios.get('http://localhost:4000/appointment')
-      .then(res => {
-        setData(res.data); // Set dataa state with response data
-      })
-      .catch(err => console.log(err.message)); // Log error message
-  }, []);
-
+      .then(res => setData(res.data))
+      .catch(err => console.log(err.message)); 
+  });
+  
   const TABLE_HEAD = ["Patient name", "DOB", "Gender", "PreviousService", "Phone", "AppointmentDate", "Doctor"];
-
   return (
     <div>
       <Card className="h-full w-full">

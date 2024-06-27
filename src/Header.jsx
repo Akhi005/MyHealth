@@ -3,7 +3,6 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faMoon } from '@fortawesome/free-solid-svg-icons';
 import { Link, NavLink } from 'react-router-dom';
 import { AuthContext } from './_auth/AuthProvider/AuthProvider';
-
 const Header = () => {
     const { user, logOut } = useContext(AuthContext);
     const handleLogout = () => {
@@ -23,17 +22,14 @@ const Header = () => {
                     <li className='text-white hover:bg-sky-600 p-1 rounded'><a href="/about">About</a></li>
                     <li className='text-white hover:bg-sky-600 p-1 rounded'><a href="/service_card">Content</a></li>
                     <li className='text-white hover:bg-sky-600 p-1 rounded'><a href="/contact">Contact</a></li>
-                    <li className='text-white hover:bg-sky-600 p-1 rounded'><a href="/create_content">Create_Content</a></li>
                 </ul>
                 <div>
                     {user ?
                         <>
-                            {/* <span>{user.photoURL}</span> */}
                             <span className='text-white'>{user.email}</span>
                             <button onClick={handleLogout} className='bg-sky-600 rounded ml-2 mr-4 px-3 py-1 text-white'><NavLink to='/'>
                                 Sign Out</NavLink></button>
                         </>
-               
                : <Link to="/signin" className='bg-sky-600 rounded ml-2 mr-4 px-3 py-1 text-white'>Sign in</Link>}
                 <button className='bg-sky-600 rounded px-2 text-2xl'><FontAwesomeIcon icon={faMoon} aria-hidden="true" /> </button></div>
         </div>

@@ -23,6 +23,8 @@ import Report_Submit from './Admin/Report_Submit';
 import Report_show from './Admin/Report_show';
 import { ReportsProvider } from './context/ReportsContext';
 import User_List from './Admin/User_List';
+import Home_Services from './Services_form/Home_Services';
+import FindConsultant from './FindConsultant';
 
 const router = createBrowserRouter([
   {
@@ -65,32 +67,25 @@ const router = createBrowserRouter([
       {
         path: '/heart_attack',
         element: <HeartAttack />
-      },
-      {
+      },{
         path:'/appointment',
         element:<Appointment></Appointment>
-      },
-      {
+      },{
         path:'/ambulance',
         element:<Ambulance></Ambulance>
-      },
-      {
+      },{
         path:'/content/:title',
         element:<Service_Details></Service_Details>
       },{
         path:'/onlinereport',
         element:<Patient_Report/>
-      },
-
-      {
-           path:'/create_content',
-           element:<Create_Content></Create_Content>
-      },
-      {
+      },{
+        path:'/create_content',
+        element:<Create_Content></Create_Content>
+      },{
         path:'/dashboard',
         element:<Dashboard></Dashboard>
-      },
-      {
+      },{
         path:'/reportsubmit',
         element:<Report_Submit></Report_Submit>
       },{
@@ -99,6 +94,12 @@ const router = createBrowserRouter([
       },{
         path:'/users',
         element:<User_List/>
+      },{
+        path:'/homeservicess',
+        element:<Home_Services/>
+      },{
+        path:'/findconsultant',
+        element:<FindConsultant/>
       }
     ]
   },

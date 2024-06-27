@@ -24,7 +24,7 @@ const new_Content_Create = () => {
     if (error) return <p>Error: {error}</p>;
     return (
         <div>
-            <h1>Data from PostgreSQL</h1>
+       
             <ul>
                 {data.map(item => (
                     <li key={item.id}>

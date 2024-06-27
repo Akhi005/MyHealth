@@ -193,7 +193,11 @@ app.get('/appointment', async (req, res) => {
     res.status(500).send('Server Error');
   }
 });
-
+app.post('/homeservice',async(req,res)=>{
+   const {pname,pcode,email,paddress,pphone,service}=req.body;
+   const result=await client.query('INSERT INTO homeservice (pname,pcode,email,paddress,pphone,service) VALUES($1, $2, $3, $4, $5, $6)RETURNING *',[pname,pcode,email,paddress,pphone,service]);
+   res.status(200).json(result);
+})
 app.use('/uploads', express.static(uploadDir));
 
 app.get('/download', async (req, res) => {
