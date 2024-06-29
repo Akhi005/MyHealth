@@ -59,10 +59,10 @@ const SignupForm = () => {
         doctormail: isDoctor ? email : '',
         specialization: isDoctor ? specialization : '',
       };
-
-      console.log('Sending user data to backend:', userData);
+      // console.log('Sending user data to backend:', userData);
       await axios.post('http://localhost:4000/users', userData);
       setSuccess('User created successfully.');
+     
       if (isDoctor) navigate('/dashboard');
       else navigate('/signin');
     } catch (error) {

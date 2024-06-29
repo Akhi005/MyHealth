@@ -1,8 +1,10 @@
+require('dotenv').config();
 const { Client } = require('pg');
 const express = require('express');
 const bodyParser = require('body-parser');
+const cookieParser=require('cookie-parser');
 const cors = require('cors');
-
+const jwt=require('jsonwebtoken');
 const fileUpload = require('express-fileupload');
 const path = require('path');
 const fs = require('fs').promises;
@@ -11,17 +13,20 @@ fs.mkdir(uploadDir, { recursive: true }).catch(console.error);
 
 const app = express();
 const port = process.env.PORT || 4000;
-
-app.use(cors());
+app.use(cookieParser())
+app.use(cors({
+  origin:['http://localhost:5173'],
+  credentials:true
+}));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(fileUpload());
 
 const client = new Client({
-  user: "postgres",
-  host: "localhost",
-  database: "Myhealth-Content",
-  password: "rootnewpassword",
+  user: process.env.DB_user,
+  host: process.env.DB_host,
+  database: process.env.DB_database,
+  password: process.env.DB_password,
   port: 5432,
 });
 
@@ -29,7 +34,18 @@ client.connect()
   .then(() => console.log('Connected to PostgreSQL database'))
   .catch(err => console.error('Connection error', err.stack));
 
-  
+app.post('/jwt',async(req,res)=>{
+  const user=req.body;
+  console.log(user);
+  const token=jwt.sign(user,process.env.ACCESS_TOKEN_SECRET,{expiresIn:'1h'})
+  res
+  .cookie('token',token,{
+    httpOnly:true,
+    secure:false,
+    sameSite:'none'
+  })
+  .send({success:true});
+})
 app.get('/content', async (req, res) => {
   try {
     const result = await client.query('SELECT * FROM content_read');

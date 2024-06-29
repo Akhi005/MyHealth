@@ -53,13 +53,21 @@ const SigninForm = () => {
     signInUser(email, password)
       .then(async (result) => {
         const user = result.user;
-       
-          if (email.includes('doctor')) {
-            nav('/dashboard');
-          } else {
-            setSuccess('User logged in successfully');
-            nav(location?.state ? location?.state : '/');
+        const useremail={email};
+        console.log(useremail);
+        axios.post('http://localhost:4000/jwt',useremail,{withCredentials:true})
+        .then(res=>{
+          console.log("jwt ",res.data)
+          if(res.data.success){
+            if (email.includes('doctor')) {
+              nav('/dashboard');
+            } else {
+              setSuccess('User logged in successfully');
+              nav(location?.state ? location?.state : '/');
+            }
           }
+        })
+         
         e.target.reset();
       })
       .catch(error => {
