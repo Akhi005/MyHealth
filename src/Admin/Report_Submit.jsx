@@ -19,8 +19,7 @@ const ReportSubmit = () => {
         const doctorcode = e.target.doctorcode.value;
         const reportfile = e.target.reportfile.value;
         const date = currentDate.toISOString().split('T')[0];
-    
-        // Logging the data being sent
+
         console.log("Submitting report:", { pname, pcode, doctorcode, reportfile, pmail, date });
     
         try {
@@ -40,20 +39,20 @@ const ReportSubmit = () => {
     };
     return (
         <div className="relative">
-            <img src="https://i.ibb.co/SypHYjm/download.jpg" alt="Background" className="absolute w-full h-100" />
-            <form className="relative ml-16 mr-96 p-12 bg-slate-300 rounded shadow-lg" onSubmit={handleReportSubmit}>
-                <h1 className="text-xl font-bold mb-4">Submit Report</h1>
+            <img src="https://i.ibb.co/SypHYjm/download.jpg" alt="Background" className="absolute w-full h-[641px]" />
+            <form className="relative ml-16 mr-96 p-8 bg-slate-300 rounded shadow-lg" onSubmit={handleReportSubmit}>
+                <h1 className="text-xl font-bold mb-2">Submit Report</h1>
                 <label className="block mb-2">Patient Name</label>
-                <input type="text" className="w-full mb-4 p-2 rounded border" name="pname" required />
+                <input type="text" className="w-full mb-2 p-2 rounded border" name="pname" required />
                 <label className="block mb-2">Patient Code</label>
-                <input type="text" className="w-full mb-4 p-2 rounded border" name="pcode" required />
+                <input type="text" className="w-full mb-2 p-2 rounded border" name="pcode" required />
                 <label className="block mb-2">Patient email</label>
-                <input type="text" className="w-full mb-4 p-2 rounded border" name="pmail" required />
+                <input type="text" className="w-full mb-2 p-2 rounded border" name="pmail" required />
                 <label className="block mb-2">Doctor Code</label>
-                <input type="text" className="w-full mb-4 p-2 rounded border" name="doctorcode" required />
+                <input type="text" className="w-full mb-2 p-2 rounded border" name="doctorcode" required />
                 <label className="block mb-2">Report File Link</label>
-                <input type="text" className="w-full mb-4 p-2 rounded border" placeholder='ImgUrl' name="reportfile" required />
-                <h1 className="mb-4">Date: {currentDate.toLocaleString()}</h1>
+                <input type="text" className="w-full mb-2 p-2 rounded border" placeholder='ImgUrl' name="reportfile" required />
+                <h1 className="mb-2">Date: {currentDate.toLocaleString()}</h1>
                 <button type="submit" className="bg-violet-500 p-3 text-white rounded hover:bg-violet-700">Submit</button>
                 {statusMessage && <p className="mt-4 text-green-500">{statusMessage}</p>}
             </form>

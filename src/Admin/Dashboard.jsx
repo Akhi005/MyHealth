@@ -4,9 +4,7 @@ import Report_Submit from './Report_Submit';
 import User_List from './User_List';
 import { AuthContext } from '../_auth/AuthProvider/AuthProvider';
 import { useNavigate } from 'react-router-dom';
-
 import Doctor_Appoint from './Doctor_Appoint';
-// import Test_Booked from './Test_Booked';
 const Dashboard = () => {
     const navigate=useNavigate();
     const {logOut}=useContext(AuthContext);
@@ -42,8 +40,7 @@ const Dashboard = () => {
                 return <User_List />;
              case 'DoctorAppoint':
                  return <Doctor_Appoint />;
-            case 'TestBooked':
-                return <Test_Booked />;
+           
             default:
                 return   <div className="relative h-full w-full">
                 <img 
@@ -88,9 +85,7 @@ const Dashboard = () => {
                     <li onClick={() => setActiveComponent('DoctorAppoint')} className='my-2 hover:bg-blue-500 cursor-pointer'>
                         Doctor's Appointment
                     </li>
-                    <li onClick={() => setActiveComponent('TestBooked')} className='my-2 hover:bg-blue-500 cursor-pointer'>
-                        Service Booking
-                    </li> 
+                 
                 </ul>
                 <hr />
                 <button className='my-4 btn btn-primary' onClick={handleLogout}>Sign Out</button>

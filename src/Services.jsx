@@ -51,13 +51,7 @@ const Services = () => {
                         </button>
                     </div>
                 </div>
-                <div className="card w-72 shadow-2xl main-container flex justify-center items-center">
-                    <figure><img className='w-[60px] h-[60px]' src="https://i.ibb.co/zVG4RTR/online-booking.png" alt="Online Test Booking" /></figure>
-                    <h2 className="card-title">Online Test Booking</h2>
-                    <div className="overlay card-actions justify-end">
-                        <button className="btn bg-yellow-600 text-white p-2 rounded mt-10">Get the service</button>
-                    </div>
-                </div>
+               
             </div>
         </div>
     );

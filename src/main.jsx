@@ -25,6 +25,8 @@ import { ReportsProvider } from './context/ReportsContext';
 import User_List from './Admin/User_List';
 import Home_Services from './Services_form/Home_Services';
 import FindConsultant from './FindConsultant';
+import PrivateRoutes from './PrivateRoutes';
+
 
 const router = createBrowserRouter([
   {
@@ -69,16 +71,16 @@ const router = createBrowserRouter([
         element: <HeartAttack />
       },{
         path:'/appointment',
-        element:<Appointment></Appointment>
+        element:<PrivateRoutes><Appointment/></PrivateRoutes>
       },{
         path:'/ambulance',
-        element:<Ambulance></Ambulance>
+        element:<PrivateRoutes><Ambulance/></PrivateRoutes>
       },{
         path:'/content/:title',
         element:<Service_Details></Service_Details>
       },{
         path:'/onlinereport',
-        element:<Patient_Report/>
+        element:<PrivateRoutes><Patient_Report/></PrivateRoutes>
       },{
         path:'/create_content',
         element:<Create_Content></Create_Content>
@@ -96,10 +98,10 @@ const router = createBrowserRouter([
         element:<User_List/>
       },{
         path:'/homeservicess',
-        element:<Home_Services/>
+        element:<PrivateRoutes><Home_Services/></PrivateRoutes>
       },{
         path:'/findconsultant',
-        element:<FindConsultant/>
+        element:<PrivateRoutes><FindConsultant/></PrivateRoutes>
       }
     ]
   },

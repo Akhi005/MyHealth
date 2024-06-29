@@ -2,10 +2,10 @@ const { Client } = require('pg');
 const express = require('express');
 const bodyParser = require('body-parser');
 const cors = require('cors');
+
 const fileUpload = require('express-fileupload');
 const path = require('path');
 const fs = require('fs').promises;
-
 const uploadDir = path.join(__dirname, 'uploads');
 fs.mkdir(uploadDir, { recursive: true }).catch(console.error);
 
@@ -29,6 +29,7 @@ client.connect()
   .then(() => console.log('Connected to PostgreSQL database'))
   .catch(err => console.error('Connection error', err.stack));
 
+  
 app.get('/content', async (req, res) => {
   try {
     const result = await client.query('SELECT * FROM content_read');
@@ -193,10 +194,10 @@ app.get('/appointment', async (req, res) => {
     res.status(500).send('Server Error');
   }
 });
-app.post('/homeservice',async(req,res)=>{
-   const {pname,pcode,email,paddress,pphone,service}=req.body;
-   const result=await client.query('INSERT INTO homeservice (pname,pcode,email,paddress,pphone,service) VALUES($1, $2, $3, $4, $5, $6)RETURNING *',[pname,pcode,email,paddress,pphone,service]);
-   res.status(200).json(result);
+app.post('/homeservice', async (req, res) => {
+  const { pname, pcode, email, paddress, pphone, service } = req.body;
+  const result = await client.query('INSERT INTO homeservice (pname,pcode,email,paddress,pphone,service) VALUES($1, $2, $3, $4, $5, $6)RETURNING *', [pname, pcode, email, paddress, pphone, service]);
+  res.status(200).json(result);
 })
 app.use('/uploads', express.static(uploadDir));
 

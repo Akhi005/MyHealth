@@ -7,6 +7,7 @@ import Content from './Content/Content';
 import Doctors from './Doctors';
 import Diagonostic from './Diagonostic';
 import Footer_last from './Footer_last';
+
 const Home = () => {
     return (
         <div>
