@@ -8,7 +8,6 @@ import Home from './Home';
 import './index.css';
 import AuthProvider from './_auth/AuthProvider/AuthProvider';
 import Service_Details from './Service_Details';
-import Contact from './Contact';
 import Service_Card from './Service_Card';
 import Diabetes from './Content/Diabetes';
 import HeatStroke from './Content/HeatStroke';
@@ -26,6 +25,7 @@ import User_List from './Admin/User_List';
 import Home_Services from './Services_form/Home_Services';
 import FindConsultant from './FindConsultant';
 import PrivateRoutes from './PrivateRoutes';
+import About from './About';
 
 
 const router = createBrowserRouter([
@@ -43,12 +43,12 @@ const router = createBrowserRouter([
         element: <SigninForm />
       },
       {
-        path: '/signup',
-        element: <SignupForm />
+        path:'/about',
+        element:<About></About>
       },
       {
-        path: '/contact',
-        element: <Contact />
+        path: '/signup',
+        element: <SignupForm />
       },
       {
         path: '/service_card/:name',

@@ -32,8 +32,8 @@ const Service_Details = () => {
 
   return (
     <div className='ml-5'>
-     {content.map((content)=>(
-     <div>
+     {content.map((content,index)=>(
+     <div key={index}>
        <h1 className='text-3xl mt-4 mb-8 text-center'>{content.title}</h1>
       <div><strong>Definition:</strong> <p className='bg-yellow-500 m-4 p-4'>{content.about}</p></div>
       <div><strong>Symptoms:</strong> <p className='bg-yellow-500 m-4 p-4'>{content.symptomps}</p></div>

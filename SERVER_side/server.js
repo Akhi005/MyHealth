@@ -1,4 +1,3 @@
-require('dotenv').config();
 const { Client } = require('pg');
 const express = require('express');
 const bodyParser = require('body-parser');
@@ -10,7 +9,7 @@ const path = require('path');
 const fs = require('fs').promises;
 const uploadDir = path.join(__dirname, 'uploads');
 fs.mkdir(uploadDir, { recursive: true }).catch(console.error);
-
+require('dotenv').config();
 const app = express();
 const port = process.env.PORT || 4000;
 app.use(cookieParser())

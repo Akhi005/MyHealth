@@ -4,7 +4,7 @@ import React from 'react';
 
 const About = () => {
     return (
-        <div className="text-white relative mt-72">
+        <div id='about' className="text-white relative mt-72">
             <img src="https://i.ibb.co/hyNqSjT/abut.jpg" className=' h-[380px] w-full' />
             <div className='relative  mt-[-400px] pb-4'>
             <h1 className="relative text-center py-5 text-6xl">About Us</h1>

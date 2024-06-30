@@ -2,7 +2,7 @@ import React from 'react';
 
 const Footer_last = () => {
     return (
-        <div className='bg-black relative'>
+        <div id="contact" className='bg-black relative'>
             <div className=' text-white p-12 flex justify-between'>
             <div>
                 <h1>Emergency Services</h1>

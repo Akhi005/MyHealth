@@ -38,8 +38,7 @@ const Diagonostic = () => {
             </div>
             
             </div>
-             
-            <button className='w-fit px-3 py-2 rounded bg-yellow-300 ml-54'>Read More</button>
+            
         </div>
     );
 };

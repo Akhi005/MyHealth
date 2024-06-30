@@ -19,9 +19,9 @@ const Header = () => {
                 <span className='font-bold text-xl text-pink-400'>H</span>ealth</h1>
                 <ul className='flex space-x-7 cursor-pointer items-center'>
                     <li className='text-white hover:bg-sky-600 p-1 rounded'><a href="#">Home</a></li>
-                    <li className='text-white hover:bg-sky-600 p-1 rounded'><a href="/about">About</a></li>
-                    <li className='text-white hover:bg-sky-600 p-1 rounded'><a href="/service_card">Content</a></li>
-                    <li className='text-white hover:bg-sky-600 p-1 rounded'><a href="/contact">Contact</a></li>
+                    <li className='text-white hover:bg-sky-600 p-1 rounded'><a href="#about">About</a></li>
+                    <li className='text-white hover:bg-sky-600 p-1 rounded'><Link to="/service_card">Content</Link></li>
+                    <li className='text-white hover:bg-sky-600 p-1 rounded'><a href="#contact">Contact</a></li>
                 </ul>
                 <div>
                     {user ?
@@ -30,8 +30,8 @@ const Header = () => {
                             <button onClick={handleLogout} className='bg-sky-600 rounded ml-2 mr-4 px-3 py-1 text-white'><NavLink to='/'>
                                 Sign Out</NavLink></button>
                         </>
-               : <Link to="/signin" className='bg-sky-600 rounded ml-2 mr-4 px-3 py-1 text-white'>Sign in</Link>}
-                <button className='bg-sky-600 rounded px-2 text-2xl'><FontAwesomeIcon icon={faMoon} aria-hidden="true" /> </button></div>
+               : <Link to="/signin" className='bg-sky-600 rounded ml-2 mr-4 px-3 py-2 text-white'>Sign in</Link>}
+           </div>
         </div>
       </div >
     );

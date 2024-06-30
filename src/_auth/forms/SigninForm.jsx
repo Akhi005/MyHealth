@@ -4,7 +4,7 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faGoogle } from "@fortawesome/free-brands-svg-icons/faGoogle";
 import { faGithub } from "@fortawesome/free-brands-svg-icons/faGithub";
-import auth from "../../firebase.init";
+import auth from "../../firebase.config";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import { faEye, faEyeSlash } from "@fortawesome/free-regular-svg-icons";
 import { AuthContext } from "../AuthProvider/AuthProvider";
