@@ -16,7 +16,7 @@ const Create_Content = () => {
     console.log(email, title, about, symptomps, prevent, medicine, imgurl);
      
     try {
-      const response = await axios.post('http://localhost:4000/createcontent', {
+      const response = await axios.post('https://myhealth-server.vercel.app/createcontent', {
         title,
         about,
         symptomps,

@@ -9,7 +9,7 @@ export const ReportsProvider = ({ children }) => {
     const [reports, setReports] = useState([]);
 
     useEffect(() => {
-        axios.get('http://localhost:4000/reports')
+        axios.get('https://myhealth-server.vercel.app/reports')
             .then(response => {
                 setReports(response.data);
                 // console.log(response.data);

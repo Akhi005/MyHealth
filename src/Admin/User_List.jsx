@@ -48,7 +48,7 @@ export default function User_List() {
   const [error, setError] = useState('');
 
   useEffect(() => {
-    axios.get('http://localhost:4000/users')
+    axios.get('https://myhealth-server.vercel.app/users')
       .then(res => {
         setAllUser(res.data);
         setLoading(false);

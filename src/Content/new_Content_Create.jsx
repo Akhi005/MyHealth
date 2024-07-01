@@ -9,7 +9,7 @@ const new_Content_Create = () => {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const response = await axios.get('http://localhost:4000/content/:name');
+                const response = await axios.get('https://myhealth-server.vercel.app/content/:name');
                 setData(response.data);
             } catch (error) {
                 setError(error.message);

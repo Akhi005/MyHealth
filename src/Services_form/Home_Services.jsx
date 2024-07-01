@@ -16,7 +16,7 @@ const Home_Services = () => {
         const pphone = e.target.pphone.value;
         const service = e.target.service.value;
         const medicineName = e.target.medicineName ? e.target.medicineName.value : '';
-        axios.post("http://localhost:4000/homeservice", { pname, pcode, email, paddress, pphone, service, medicineName })
+        axios.post("https://myhealth-server.vercel.app/homeservice", { pname, pcode, email, paddress, pphone, service, medicineName })
             .then(() => {
                 setShowModal(true);
                 navigate('/');

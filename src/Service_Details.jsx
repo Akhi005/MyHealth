@@ -13,7 +13,7 @@ const Service_Details = () => {
     const fetchContent = async () => {
       console.log("details ",title);
       try {
-        const response = await axios.get(`http://localhost:4000/content`);
+        const response = await axios.get(`https://myhealth-server.vercel.app/content`);
         const res = response.data.filter((e)=>e.title===title);
         console.log(res);
         setContent(res);

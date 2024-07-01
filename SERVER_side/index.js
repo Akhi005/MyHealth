@@ -1,4 +1,4 @@
-const { Client } = require('pg');
+const { Pool } = require('pg');
 const express = require('express');
 const bodyParser = require('body-parser');
 const cookieParser=require('cookie-parser');
@@ -14,22 +14,18 @@ const app = express();
 const port = process.env.PORT || 4000;
 app.use(cookieParser())
 app.use(cors({
-  origin:['http://localhost:5173'],
+  origin:['http://localhost:5173','https://myhealth-server.vercel.app'],
   credentials:true
 }));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(fileUpload());
 
-const client = new Client({
-  user: process.env.DB_user,
-  host: process.env.DB_host,
-  database: process.env.DB_database,
-  password: process.env.DB_password,
-  port: 5432,
-});
 
-client.connect()
+const pool = new Pool({
+  connectionString: process.env.POSTGRES_URL,
+})
+pool.connect()
   .then(() => console.log('Connected to PostgreSQL database'))
   .catch(err => console.error('Connection error', err.stack));
 
@@ -47,10 +43,10 @@ app.post('/jwt',async(req,res)=>{
 })
 app.get('/content', async (req, res) => {
   try {
-    const result = await client.query('SELECT * FROM content_read');
+    const result = await pool.query('SELECT * FROM content_read');
     res.json(result.rows);
   } catch (err) {
-    console.error('Error fetching data from the database:', err.message);
+    console.error('Error fetching data from the database:', err.message, err.stack);
     res.status(500).send('Server Error');
   }
 });
@@ -58,7 +54,7 @@ app.get('/content', async (req, res) => {
 app.post('/createcontent', async (req, res) => {
   const { title, about, symptomps, prevent, medicine, email, imgurl } = req.body;
   try {
-    const result = await client.query(
+    const result = await pool.query(
       'INSERT INTO content_read (title, about, symptomps, prevent, medicine, email, imgurl) VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING *',
       [title, about, symptomps, prevent, medicine, email, imgurl]
     );
@@ -72,7 +68,7 @@ app.post('/createcontent', async (req, res) => {
 app.get('/content/:title', async (req, res) => {
   const { title } = req.params;
   try {
-    const result = await client.query('SELECT * FROM content_read WHERE title = $1', [title]);
+    const result = await pool.query('SELECT * FROM content_read WHERE title = $1', [title]);
     if (result.rows.length === 0) {
       return res.status(404).send('Content not found');
     }
@@ -85,7 +81,7 @@ app.get('/content/:title', async (req, res) => {
 
 app.get('/reports', async (req, res) => {
   try {
-    const result = await client.query('SELECT * FROM report_submit');
+    const result = await pool.query('SELECT * FROM report_submit');
     res.json(result.rows);
   } catch (err) {
     console.error('Error fetching data from the database:', err.message);
@@ -98,7 +94,7 @@ app.put('/reports/:pcode/status', async (req, res) => {
   const { status } = req.body;
 
   try {
-    const result = await client.query(
+    const result = await pool.query(
       'UPDATE report_submit SET status = $1 WHERE pcode = $2 RETURNING *',
       [status, pcode]
     );
@@ -131,12 +127,12 @@ app.post('/users', async (req, res) => {
   try {
     let result;
     if (pname) {
-      result = await client.query(
+      result = await pool.query(
         `INSERT INTO users (pname, pcode, pmail) VALUES ($1, nextval('patient_code_seq'), $2) RETURNING *`,
         [pname, pmail]
       );
     } else if (doctorname) {
-      result = await client.query(
+      result = await pool.query(
         `INSERT INTO users (doctorname, doctorcode, doctormail) VALUES ($1, nextval('doctor_code_seq'), $2) RETURNING *`,
         [doctorname, doctormail]
       );
@@ -152,7 +148,7 @@ app.post('/users', async (req, res) => {
 
 app.get('/users', async (req, res) => {
   try {
-    const result = await client.query('SELECT * FROM users');
+    const result = await pool.query('SELECT * FROM users');
     res.json(result.rows);
   } catch (err) {
     console.error('Error fetching users:', err.message);
@@ -172,7 +168,7 @@ app.post('/reportsubmit', async (req, res) => {
 
   try {
     const status = "Unpaid";
-    const result = await client.query(
+    const result = await pool.query(
       'INSERT INTO report_submit(pname, pcode, doctorcode, reportfile, pmail, date, status) VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING *',
       [pname, pcode, doctorcode, reportfile, pmail, date, status]
     );
@@ -188,7 +184,7 @@ app.post('/reportsubmit', async (req, res) => {
 app.post('/appointment', async (req, res) => {
   const { patient_name, dob, gender, yesnoques, phone, appointmentdate, doctorapp, appointmenttime } = req.body;
   try {
-    const result = await client.query(
+    const result = await pool.query(
       'INSERT INTO appointment (patient_name, dob, gender, yesnoques, phone, appointmentdate, doctorapp, appointmenttime) VALUES ($1, $2, $3, $4, $5, $6, $7, $8) RETURNING *',
       [patient_name, dob, gender, yesnoques, phone, appointmentdate, doctorapp, appointmenttime]
     );
@@ -201,7 +197,7 @@ app.post('/appointment', async (req, res) => {
 
 app.get('/appointment', async (req, res) => {
   try {
-    const result = await client.query('SELECT * FROM appointment');
+    const result = await pool.query('SELECT * FROM appointment');
     res.json(result.rows);
     console.log(result);
   } catch (err) {
@@ -211,7 +207,7 @@ app.get('/appointment', async (req, res) => {
 });
 app.post('/homeservice', async (req, res) => {
   const { pname, pcode, email, paddress, pphone, service } = req.body;
-  const result = await client.query('INSERT INTO homeservice (pname,pcode,email,paddress,pphone,service) VALUES($1, $2, $3, $4, $5, $6)RETURNING *', [pname, pcode, email, paddress, pphone, service]);
+  const result = await pool.query('INSERT INTO homeservice (pname,pcode,email,paddress,pphone,service) VALUES($1, $2, $3, $4, $5, $6)RETURNING *', [pname, pcode, email, paddress, pphone, service]);
   res.status(200).json(result);
 })
 app.use('/uploads', express.static(uploadDir));
@@ -234,6 +230,9 @@ app.get('/download', async (req, res) => {
   }
 });
 
+app.get('/', (req, res) => {
+  res.send('myhealth server is running');
+})
 app.listen(port, () => {
   console.log(`Server running on http://localhost:${port}`);
 });
