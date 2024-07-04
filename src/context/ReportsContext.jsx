@@ -1,5 +1,3 @@
-// src/context/ReportsContext.jsx
-
 import React, { createContext, useState, useEffect } from 'react';
 import axios from 'axios';
 
@@ -7,16 +5,27 @@ export const ReportsContext = createContext();
 
 export const ReportsProvider = ({ children }) => {
     const [reports, setReports] = useState([]);
+    const [error, setError] = useState(null);
 
     useEffect(() => {
-        axios.get('https://myhealth-server.vercel.app/reports')
-            .then(response => {
-                setReports(response.data);
-                // console.log(response.data);
-            })
-            .catch(error => {
-                console.error('Error fetching reports:', error);
-            });
+        axios.get('https://myhealth-server-side-akhi005-akhis-projects.vercel.app/reports',{withCredentials:true})
+        .then(response => {
+          console.log(response.data);
+        })
+        .catch(error => {
+          if (error.response) {
+            console.error('Error data:', error.response.data);
+            console.error('Error status:', error.response.status);
+            console.error('Error headers:', error.response.headers);
+          } else if (error.request) {
+            console.error('No response received:', error.request);
+          } else {
+            console.error('Error message:', error.message);
+          }
+          console.error('Error config:', error.config);
+        });
+            
+
     }, []);
 
     const updateReportStatus = (pcode, status) => {
@@ -24,8 +33,9 @@ export const ReportsProvider = ({ children }) => {
             report.pcode === pcode ? { ...report, status } : report
         ));
     };
+
     return (
-        <ReportsContext.Provider value={{ reports,setReports, updateReportStatus }}>
+        <ReportsContext.Provider value={{ reports, setReports, updateReportStatus, error }}>
             {children}
         </ReportsContext.Provider>
     );

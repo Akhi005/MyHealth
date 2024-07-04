@@ -5,14 +5,15 @@ import { useNavigate } from 'react-router-dom';
 const ReportSubmit = () => {
     const [currentDate, setCurrentDate] = useState(new Date());
     const [statusMessage, setStatusMessage] = useState('');
+    const navigate = useNavigate();
 
     useEffect(() => {
         setCurrentDate(new Date());
     }, []);
-    const navigate=useNavigate();
+
     const handleReportSubmit = async (e) => {
         e.preventDefault();
-       
+
         const pname = e.target.pname.value;
         const pcode = e.target.pcode.value;
         const pmail = e.target.pmail.value;
@@ -21,14 +22,14 @@ const ReportSubmit = () => {
         const date = currentDate.toISOString().split('T')[0];
 
         console.log("Submitting report:", { pname, pcode, doctorcode, reportfile, pmail, date });
-    
+
         try {
-            const response = await axios.post('https://myhealth-server.vercel.app/reportsubmit', {  pname, pcode, doctorcode, reportfile, pmail, date}, {
+            const response = await axios.post('https://myhealth-server-side-akhi005-akhis-projects.vercel.app/reportsubmit', { pname, pcode, doctorcode, reportfile, pmail, date }, {
                 headers: {
-                    'Content-Type': 'application/json',  
+                    'Content-Type': 'application/json',
                 },
             });
-    
+
             setStatusMessage('Report submitted successfully.');
             console.log('Report submitted successfully:', response.data);
             navigate('/reportshow');
@@ -37,6 +38,7 @@ const ReportSubmit = () => {
             console.error('Error submitting report:', error);
         }
     };
+
     return (
         <div className="relative">
             <img src="https://i.ibb.co/SypHYjm/download.jpg" alt="Background" className="absolute w-full h-[641px]" />

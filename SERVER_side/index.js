@@ -1,4 +1,4 @@
-const { Pool } = require('pg');
+const { Client } = require('pg');
 const express = require('express');
 const bodyParser = require('body-parser');
 const cookieParser=require('cookie-parser');
@@ -14,39 +14,60 @@ const app = express();
 const port = process.env.PORT || 4000;
 app.use(cookieParser())
 app.use(cors({
-  origin:['http://localhost:5173','https://myhealth-server.vercel.app'],
-  credentials:true
+  origin: ['http://localhost:5173', 'https://myhealth-792e7.web.app'],
+  credentials: true
 }));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(fileUpload());
 
+const client = new Client({
+  user: process.env.DB_user,
+  host: process.env.DB_host,
+  database: process.env.DB_database,
+  password: process.env.DB_password,
+  port: 5432,
+});
 
-const pool = new Pool({
-  connectionString: process.env.POSTGRES_URL,
-})
-pool.connect()
+client.connect()
   .then(() => console.log('Connected to PostgreSQL database'))
   .catch(err => console.error('Connection error', err.stack));
+  
+console.log(client.user);
 
-app.post('/jwt',async(req,res)=>{
-  const user=req.body;
+app.post('/jwt', async (req, res) => {
+  const user = req.body;
   console.log(user);
-  const token=jwt.sign(user,process.env.ACCESS_TOKEN_SECRET,{expiresIn:'1h'})
+  const token = jwt.sign(user, process.env.ACCESS_TOKEN_SECRET, { expiresIn: '1h' });
   res
-  .cookie('token',token,{
-    httpOnly:true,
-    secure:false,
-    sameSite:'none'
-  })
-  .send({success:true});
-})
-app.get('/content', async (req, res) => {
+    .cookie('token', token, {
+      httpOnly: true,
+      secure: true,
+      sameSite: 'none'
+    })
+    .send({ success: true });
+});
+const verifyToken = (req, res, next) => {
+  const token = req.cookies.token;
+  if (!token) {
+    return res.status(401).send('Access Denied');
+  }
   try {
-    const result = await pool.query('SELECT * FROM content_read');
+    const verified = jwt.verify(token, process.env.ACCESS_TOKEN_SECRET);
+    req.user = verified;
+    next();
+  } catch (err) {
+    res.status(400).send('Invalid Token');
+  }
+};
+
+app.get('/content', verifyToken, async (req, res) => {
+  try {
+    console.log('Received request for /content');
+    const result = await client.query('SELECT * FROM content_read');
     res.json(result.rows);
   } catch (err) {
-    console.error('Error fetching data from the database:', err.message, err.stack);
+    console.error('Error fetching data from the database:', err.message);
     res.status(500).send('Server Error');
   }
 });
@@ -54,7 +75,7 @@ app.get('/content', async (req, res) => {
 app.post('/createcontent', async (req, res) => {
   const { title, about, symptomps, prevent, medicine, email, imgurl } = req.body;
   try {
-    const result = await pool.query(
+    const result = await client.query(
       'INSERT INTO content_read (title, about, symptomps, prevent, medicine, email, imgurl) VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING *',
       [title, about, symptomps, prevent, medicine, email, imgurl]
     );
@@ -68,7 +89,7 @@ app.post('/createcontent', async (req, res) => {
 app.get('/content/:title', async (req, res) => {
   const { title } = req.params;
   try {
-    const result = await pool.query('SELECT * FROM content_read WHERE title = $1', [title]);
+    const result = await client.query('SELECT * FROM content_read WHERE title = $1', [title]);
     if (result.rows.length === 0) {
       return res.status(404).send('Content not found');
     }
@@ -81,7 +102,8 @@ app.get('/content/:title', async (req, res) => {
 
 app.get('/reports', async (req, res) => {
   try {
-    const result = await pool.query('SELECT * FROM report_submit');
+    console.log('Received request for /reports');
+    const result = await client.query('SELECT * FROM report_submit');
     res.json(result.rows);
   } catch (err) {
     console.error('Error fetching data from the database:', err.message);
@@ -94,7 +116,7 @@ app.put('/reports/:pcode/status', async (req, res) => {
   const { status } = req.body;
 
   try {
-    const result = await pool.query(
+    const result = await client.query(
       'UPDATE report_submit SET status = $1 WHERE pcode = $2 RETURNING *',
       [status, pcode]
     );
@@ -109,7 +131,28 @@ app.put('/reports/:pcode/status', async (req, res) => {
     res.status(500).json({ error: 'Internal server error' });
   }
 });
+app.post('/reportsubmit', async (req, res) => {
+  const { pname, pcode, doctorcode, reportfile, pmail, date } = req.body;
 
+  console.log("Received report submit data:", { pname, pcode, doctorcode, reportfile, pmail, date });
+
+  if (!pname || !pcode || !doctorcode || !date || !reportfile || !pmail) {
+    console.error('Missing required fields');
+    return res.status(400).send('Missing required fields');
+  }
+  try {
+    const status = "Unpaid";
+    const result = await client.query(
+      'INSERT INTO report_submit(pname, pcode, doctorcode, reportfile, pmail, date, status) VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING *',
+      [pname, pcode, doctorcode, reportfile, pmail, date, status]
+    );
+    console.log('Report submitted successfully:', result.rows[0]);
+    res.status(200).json(result.rows[0]);
+  } catch (err) {
+    console.error('Error inserting into the database:', err.message);
+    res.status(500).send('Server Error');
+  }
+});
 app.post('/users', async (req, res) => {
   const userData = req.body;
   console.log('User data received:', userData);
@@ -127,12 +170,12 @@ app.post('/users', async (req, res) => {
   try {
     let result;
     if (pname) {
-      result = await pool.query(
+      result = await client.query(
         `INSERT INTO users (pname, pcode, pmail) VALUES ($1, nextval('patient_code_seq'), $2) RETURNING *`,
         [pname, pmail]
       );
     } else if (doctorname) {
-      result = await pool.query(
+      result = await client.query(
         `INSERT INTO users (doctorname, doctorcode, doctormail) VALUES ($1, nextval('doctor_code_seq'), $2) RETURNING *`,
         [doctorname, doctormail]
       );
@@ -148,7 +191,7 @@ app.post('/users', async (req, res) => {
 
 app.get('/users', async (req, res) => {
   try {
-    const result = await pool.query('SELECT * FROM users');
+    const result = await client.query('SELECT * FROM users');
     res.json(result.rows);
   } catch (err) {
     console.error('Error fetching users:', err.message);
@@ -156,35 +199,10 @@ app.get('/users', async (req, res) => {
   }
 });
 
-app.post('/reportsubmit', async (req, res) => {
-  const { pname, pcode, doctorcode, reportfile, pmail, date } = req.body;
-
-  console.log("Received report submit data:", { pname, pcode, doctorcode, reportfile, pmail, date });
-
-  if (!pname || !pcode || !doctorcode || !date || !reportfile || !pmail) {
-    console.error('Missing required fields');
-    return res.status(400).send('Missing required fields');
-  }
-
-  try {
-    const status = "Unpaid";
-    const result = await pool.query(
-      'INSERT INTO report_submit(pname, pcode, doctorcode, reportfile, pmail, date, status) VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING *',
-      [pname, pcode, doctorcode, reportfile, pmail, date, status]
-    );
-
-    console.log('Report submitted successfully:', result.rows[0]);
-    res.status(200).json(result.rows[0]);
-  } catch (err) {
-    console.error('Error inserting into the database:', err.message);
-    res.status(500).send('Server Error');
-  }
-});
-
 app.post('/appointment', async (req, res) => {
   const { patient_name, dob, gender, yesnoques, phone, appointmentdate, doctorapp, appointmenttime } = req.body;
   try {
-    const result = await pool.query(
+    const result = await client.query(
       'INSERT INTO appointment (patient_name, dob, gender, yesnoques, phone, appointmentdate, doctorapp, appointmenttime) VALUES ($1, $2, $3, $4, $5, $6, $7, $8) RETURNING *',
       [patient_name, dob, gender, yesnoques, phone, appointmentdate, doctorapp, appointmenttime]
     );
@@ -197,7 +215,7 @@ app.post('/appointment', async (req, res) => {
 
 app.get('/appointment', async (req, res) => {
   try {
-    const result = await pool.query('SELECT * FROM appointment');
+    const result = await client.query('SELECT * FROM appointment');
     res.json(result.rows);
     console.log(result);
   } catch (err) {
@@ -207,7 +225,7 @@ app.get('/appointment', async (req, res) => {
 });
 app.post('/homeservice', async (req, res) => {
   const { pname, pcode, email, paddress, pphone, service } = req.body;
-  const result = await pool.query('INSERT INTO homeservice (pname,pcode,email,paddress,pphone,service) VALUES($1, $2, $3, $4, $5, $6)RETURNING *', [pname, pcode, email, paddress, pphone, service]);
+  const result = await client.query('INSERT INTO homeservice (pname,pcode,email,paddress,pphone,service) VALUES($1, $2, $3, $4, $5, $6)RETURNING *', [pname, pcode, email, paddress, pphone, service]);
   res.status(200).json(result);
 })
 app.use('/uploads', express.static(uploadDir));
@@ -229,7 +247,6 @@ app.get('/download', async (req, res) => {
     res.status(404).send('File not found');
   }
 });
-
 app.get('/', (req, res) => {
   res.send('myhealth server is running');
 })

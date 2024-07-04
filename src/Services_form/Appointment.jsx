@@ -29,7 +29,7 @@ const Appointment = () => {
         console.log('Form Data:', formData); 
     
         try {
-            const response = await axios.post('https://myhealth-server.vercel.app/appointment', formData);
+            const response = await axios.post('https://myhealth-server-side-akhi005-akhis-projects.vercel.app/appointment', formData);
             console.log('User saved:', response.data);
             setMessage('Appointment successfully booked!');
             alert('Appointment successfully booked!');

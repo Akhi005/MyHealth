@@ -60,7 +60,7 @@ const SignupForm = () => {
         specialization: isDoctor ? specialization : '',
       };
       // console.log('Sending user data to backend:', userData);
-      await axios.post('https://myhealth-server.vercel.app/users', userData);
+      await axios.post('https://myhealth-server-side-akhi005-akhis-projects.vercel.app/users', userData,{withCredentials:true});
       setSuccess('User created successfully.');
      
       if (isDoctor) navigate('/dashboard');

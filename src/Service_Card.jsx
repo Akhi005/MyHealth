@@ -9,13 +9,21 @@ const Service_Card = () => {
 
   useEffect(() => {
     const fetchData = async () => {
-        const response = await axios.get('https://myhealth-server.vercel.app/content');
+      try {
+        const response = await axios.get('https://myhealth-server-side-akhi005-akhis-projects.vercel.app/content', {
+          withCredentials: true
+        });
         setData(response.data);
         console.log(response.data);
         setLoading(false);
+      } catch (error) {
+        setError(error.message);
+        setLoading(false);
+      }
     };
     fetchData();
   }, []);
+
   if (loading) return <p>Loading...</p>;
   if (error) return <p>Error: {error}</p>;
   return (
@@ -24,12 +32,12 @@ const Service_Card = () => {
       <div className='pl-24 flex flex-wrap '>
         {data.map(item => (
           <Link to={`/content/${item.title}`} key={item.id}>
-             <div className="card w-72 m-4 bg-lime-300"  >
-            <img src={item.imgurl} className="card-img-top h-[160px] " />
-            <div className="card-body">
-              <h2 className="card-text text-2xl text-center">{item.title}</h2>
+            <div className="card w-72 m-4 bg-lime-300">
+              <img src={item.imgurl} className="card-img-top h-[160px]" />
+              <div className="card-body">
+                <h2 className="card-text text-2xl text-center">{item.title}</h2>
+              </div>
             </div>
-          </div>
           </Link>
         ))}
       </div>
