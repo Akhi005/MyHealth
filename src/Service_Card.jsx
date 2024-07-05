@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
-
+axios.defaults.withCredentials = true;
 const Service_Card = () => {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -10,9 +10,7 @@ const Service_Card = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get('https://myhealth-server-side-akhi005-akhis-projects.vercel.app/content', {
-          withCredentials: true
-        });
+        const response = await axios.get('https://myhealth-server-side.vercel.app/content',{withCredentials:true});
         setData(response.data);
         console.log(response.data);
         setLoading(false);

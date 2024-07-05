@@ -55,9 +55,9 @@ const SigninForm = () => {
         const user = result.user;
         const useremail={email};
         console.log(useremail);
-        axios.post('https://myhealth-server-side-akhi005-akhis-projects.vercel.app/jwt',useremail,{withCredentials:true})
+        axios.post('https://myhealth-server-side.vercel.app/jwt',useremail,{withCredentials:true})
         .then(res=>{
-          console.log("jwt ",res.data)
+          console.log("jwt from sign in ",res.data)
           if(res.data.success){
             if (email.includes('doctor')) {
               nav('/dashboard');

@@ -18,7 +18,7 @@ const ReportShow = () => {
 
     const handleStatusChange = async (pcode) => {
         try {
-            const response = await axios.put(`https://myhealth-server-side-akhi005-akhis-projects.vercel.app/reports/${pcode}/status`, { status: 'Paid' });
+            const response = await axios.put(`https://myhealth-server-side.vercel.app/reports/${pcode}/status`, { status: 'Paid' });
             const updatedReport = response.data;
             setReports(prevReports =>
                 prevReports.map(report =>

@@ -24,7 +24,7 @@ const ReportSubmit = () => {
         console.log("Submitting report:", { pname, pcode, doctorcode, reportfile, pmail, date });
 
         try {
-            const response = await axios.post('https://myhealth-server-side-akhi005-akhis-projects.vercel.app/reportsubmit', { pname, pcode, doctorcode, reportfile, pmail, date }, {
+            const response = await axios.post('https://myhealth-server-side.vercel.app/reportsubmit', { pname, pcode, doctorcode, reportfile, pmail, date }, {
                 headers: {
                     'Content-Type': 'application/json',
                 },

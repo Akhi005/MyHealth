@@ -1,25 +1,30 @@
 const { Client } = require('pg');
 const express = require('express');
 const bodyParser = require('body-parser');
-const cookieParser=require('cookie-parser');
+const cookieParser = require('cookie-parser');
 const cors = require('cors');
-const jwt=require('jsonwebtoken');
+const jwt = require('jsonwebtoken');
 const fileUpload = require('express-fileupload');
 const path = require('path');
 const fs = require('fs').promises;
 const uploadDir = path.join(__dirname, 'uploads');
 fs.mkdir(uploadDir, { recursive: true }).catch(console.error);
 require('dotenv').config();
+
 const app = express();
 const port = process.env.PORT || 4000;
-app.use(cookieParser())
+
+app.use(cookieParser());
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(fileUpload());
+app.use(express.json());
+
 app.use(cors({
   origin: ['http://localhost:5173', 'https://myhealth-792e7.web.app'],
   credentials: true
 }));
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: true }));
-app.use(fileUpload());
+
 
 const client = new Client({
   user: process.env.DB_user,
@@ -32,23 +37,26 @@ const client = new Client({
 client.connect()
   .then(() => console.log('Connected to PostgreSQL database'))
   .catch(err => console.error('Connection error', err.stack));
-  
-console.log(client.user);
 
 app.post('/jwt', async (req, res) => {
   const user = req.body;
-  console.log(user);
+  console.log("inside backend jwt ", user);
   const token = jwt.sign(user, process.env.ACCESS_TOKEN_SECRET, { expiresIn: '1h' });
-  res
-    .cookie('token', token, {
+  console.log("inside jwt token  ", token);
+  res.cookie('token', token, {
       httpOnly: true,
       secure: true,
-      sameSite: 'none'
+      sameSite:'none',
+      maxAge: 30 * 24 * 60 * 60 * 1000,
     })
     .send({ success: true });
 });
+
 const verifyToken = (req, res, next) => {
-  const token = req.cookies.token;
+  console.log('Cookies:', req.cookies);
+  console.log('Authorization Header:', req.headers['authorization']);
+  const token = req.cookies.token || req.headers['authorization'];
+  console.log("verified Token  :  ",token);
   if (!token) {
     return res.status(401).send('Access Denied');
   }
@@ -57,13 +65,13 @@ const verifyToken = (req, res, next) => {
     req.user = verified;
     next();
   } catch (err) {
-    res.status(400).send('Invalid Token');
+    res.status(401).send('Invalid Token');
   }
 };
 
 app.get('/content', verifyToken, async (req, res) => {
   try {
-    console.log('Received request for /content');
+    console.log('Received request for /content ', req.cookies);
     const result = await client.query('SELECT * FROM content_read');
     res.json(result.rows);
   } catch (err) {
@@ -100,9 +108,9 @@ app.get('/content/:title', async (req, res) => {
   }
 });
 
-app.get('/reports', async (req, res) => {
+app.get('/reports', verifyToken, async (req, res) => {
   try {
-    console.log('Received request for /reports');
+    console.log('Received request for /reports',req.cookies);
     const result = await client.query('SELECT * FROM report_submit');
     res.json(result.rows);
   } catch (err) {
@@ -111,7 +119,7 @@ app.get('/reports', async (req, res) => {
   }
 });
 
-app.put('/reports/:pcode/status', async (req, res) => {
+app.put('/reports/:pcode/status', verifyToken, async (req, res) => {
   const { pcode } = req.params;
   const { status } = req.body;
 
@@ -131,6 +139,7 @@ app.put('/reports/:pcode/status', async (req, res) => {
     res.status(500).json({ error: 'Internal server error' });
   }
 });
+
 app.post('/reportsubmit', async (req, res) => {
   const { pname, pcode, doctorcode, reportfile, pmail, date } = req.body;
 
@@ -153,6 +162,7 @@ app.post('/reportsubmit', async (req, res) => {
     res.status(500).send('Server Error');
   }
 });
+
 app.post('/users', async (req, res) => {
   const userData = req.body;
   console.log('User data received:', userData);
@@ -181,7 +191,7 @@ app.post('/users', async (req, res) => {
       );
     }
 
-    console.log('User data inserted:', result.rows[0]);
+    // console.log('User data inserted:', result.rows[0]);
     res.status(201).send(result.rows[0]);
   } catch (err) {
     console.error('Error inserting user data:', err.message);
@@ -189,7 +199,7 @@ app.post('/users', async (req, res) => {
   }
 });
 
-app.get('/users', async (req, res) => {
+app.get('/users', verifyToken, async (req, res) => {
   try {
     const result = await client.query('SELECT * FROM users');
     res.json(result.rows);
@@ -199,7 +209,7 @@ app.get('/users', async (req, res) => {
   }
 });
 
-app.post('/appointment', async (req, res) => {
+app.post('/appointment', verifyToken, async (req, res) => {
   const { patient_name, dob, gender, yesnoques, phone, appointmentdate, doctorapp, appointmenttime } = req.body;
   try {
     const result = await client.query(
@@ -213,21 +223,23 @@ app.post('/appointment', async (req, res) => {
   }
 });
 
-app.get('/appointment', async (req, res) => {
+app.get('/appointment', verifyToken, async (req, res) => {
   try {
     const result = await client.query('SELECT * FROM appointment');
     res.json(result.rows);
-    console.log(result);
+    // console.log(result);
   } catch (err) {
     console.error('Error fetching data from the database:', err.message);
     res.status(500).send('Server Error');
   }
 });
-app.post('/homeservice', async (req, res) => {
+
+app.post('/homeservice', verifyToken, async (req, res) => {
   const { pname, pcode, email, paddress, pphone, service } = req.body;
-  const result = await client.query('INSERT INTO homeservice (pname,pcode,email,paddress,pphone,service) VALUES($1, $2, $3, $4, $5, $6)RETURNING *', [pname, pcode, email, paddress, pphone, service]);
+  const result = await client.query('INSERT INTO homeservice (pname, pcode, email, paddress, pphone, service) VALUES($1, $2, $3, $4, $5, $6) RETURNING *', [pname, pcode, email, paddress, pphone, service]);
   res.status(200).json(result);
-})
+});
+
 app.use('/uploads', express.static(uploadDir));
 
 app.get('/download', async (req, res) => {
@@ -247,9 +259,11 @@ app.get('/download', async (req, res) => {
     res.status(404).send('File not found');
   }
 });
+
 app.get('/', (req, res) => {
   res.send('myhealth server is running');
-})
+});
+
 app.listen(port, () => {
   console.log(`Server running on http://localhost:${port}`);
 });

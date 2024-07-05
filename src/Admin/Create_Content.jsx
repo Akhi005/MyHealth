@@ -16,7 +16,7 @@ const Create_Content = () => {
     console.log(email, title, about, symptomps, prevent, medicine, imgurl);
      
     try {
-      const response = await axios.post('https://myhealth-server-side-akhi005-akhis-projects.vercel.app/createcontent', {
+      const response = await axios.post('https://myhealth-server-side.vercel.app/createcontent', {
         title,
         about,
         symptomps,

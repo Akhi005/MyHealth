@@ -48,28 +48,26 @@ const SignupForm = () => {
       return;
     }
 
-    try {
-      const result = await createUser(email, password);
-      console.log(result.user);
-      const isDoctor = email.includes('doctor');
-      const userData = {
-        pname: !isDoctor ? name : '',
-        doctorname: isDoctor ? name : '',
-        pmail: !isDoctor ? email : '',
-        doctormail: isDoctor ? email : '',
-        specialization: isDoctor ? specialization : '',
-      };
-      // console.log('Sending user data to backend:', userData);
-      await axios.post('https://myhealth-server-side-akhi005-akhis-projects.vercel.app/users', userData,{withCredentials:true});
-      setSuccess('User created successfully.');
+   createUser(email, password)
+   .then(async(result)=>{
+    console.log(result.user);
+    const isDoctor = email.includes('doctor');
+    const userData = {
+      pname: !isDoctor ? name : '',
+      doctorname: isDoctor ? name : '',
+      pmail: !isDoctor ? email : '',
+      doctormail: isDoctor ? email : '',
+      specialization: isDoctor ? specialization : '',
+    };
+
+    await axios.post('https://myhealth-server-side.vercel.app/users', { withCredentials: true });
      
-      if (isDoctor) navigate('/dashboard');
-      else navigate('/signin');
-    } catch (error) {
-      setRegisterError(error.message);
-    } finally {
+    setSuccess('User created successfully.');
+
+    if (isDoctor) navigate('/dashboard');
+    else navigate('/signin');
+   })
       setLoading(false);
-    }
   };
 
   const handleIsDoctor = (e) => {
