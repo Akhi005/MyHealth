@@ -8,14 +8,14 @@ const FindConsultant = () => {
   const [filteredData, setFilteredData] = useState([]);
 
   useEffect(() => {
-    axios.get('https://myhealth-server-side.vercel.app/users')
+    axios.get('http://localhost:4000/users')
       .then(res => {
         const filtered = res.data.filter(d => d.doctorname != null);
         setDoctorList(filtered);
         setFilteredData(filtered);
         console.log(res.data);
       })
-      .catch(err => console.log(err.message));
+      .catch(err => console.log(err.stack));
   }, []);
 
   useEffect(() => {

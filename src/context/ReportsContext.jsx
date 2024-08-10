@@ -8,9 +8,10 @@ export const ReportsProvider = ({ children }) => {
     const [error, setError] = useState(null);
 
     useEffect(() => {
-        axios.get('https://myhealth-server-side.vercel.app/reports',{ withCredentials: true })
+        axios.get('http://localhost:4000/reports')
         .then(response => {
           console.log(response.data);
+          setReports(response.data);
         })
         .catch(error => {
           if (error.response) {

@@ -6,16 +6,16 @@ import PropTypes from 'prop-types';
 const PrivateRoutes = ({ children }) => {
   const { user, loading } = useContext(AuthContext);
   const location=useLocation();
-  console.log(location.pathname);
-  if (loading) {
-    return <div className="spinner-border" role="status"><span className="visually-hidden">Loading...</span></div>;
+  console.log(loading);
+  if (!user) {
+    // return <div className="spinner-border" role="status"><span className="visually-hidden">Loading...</span></div>;
+    return <Navigate to='/signin' />;
   }
 
   if (user) {
     return children;
   }
 
-  return <Navigate state={location.pathname} to='/signin' />;
 };
 
 export default PrivateRoutes;

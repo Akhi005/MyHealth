@@ -10,7 +10,7 @@ const Service_Card = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get('https://myhealth-server-side.vercel.app/content',{withCredentials:true});
+        const response = await axios.get('http://localhost:4000/content',{withCredentials:true});
         setData(response.data);
         console.log(response.data);
         setLoading(false);

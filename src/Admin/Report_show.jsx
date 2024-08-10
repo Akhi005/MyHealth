@@ -8,7 +8,7 @@ const ReportShow = () => {
     const { user } = useContext(AuthContext);
     const { reports, setReports, error } = useContext(ReportsContext);
     const [filterReport, setFilterReport] = useState([]);
-
+    console.log("in report show ",reports);
     useEffect(() => {
         if (user && reports) {
             const filterRep = reports.filter(report => report.pmail === user.email);
@@ -18,7 +18,7 @@ const ReportShow = () => {
 
     const handleStatusChange = async (pcode) => {
         try {
-            const response = await axios.put(`https://myhealth-server-side.vercel.app/reports/${pcode}/status`, { status: 'Paid' });
+            const response = await axios.put(`http://localhost:4000/reports/${pcode}/status`, { status: 'Paid' });
             const updatedReport = response.data;
             setReports(prevReports =>
                 prevReports.map(report =>

@@ -8,15 +8,15 @@ const Patient_Report = () => {
     const { reports, loading, error } = useContext(ReportsContext);
     const TABLE_HEAD = ["Patient name", "Patient Reg code", "Doctor's name", "Status", "Date", "File"];
     const [filteredReports, setFilteredReports] = useState([]);
-
+    
     useEffect(() => {
         if (reports && user) {
-            const filtered = reports.filter(report => report.pmail === user.email);
+            const filtered = reports.filter(report => (report.pmail).toLowerCase()===(user.email).toLowerCase());
             setFilteredReports(filtered);
             console.log(filtered);
         }
     }, [reports, user]);
-
+  console.log(filteredReports);
     if (loading) {
         return <p>Loading...</p>; 
     }
@@ -91,9 +91,9 @@ const Patient_Report = () => {
                                         </Typography>
                                     </td>
                                     <td className="p-4">
-                                        <a href={`${(report.reportfile)}`} className="text-blue-500 hover:underline">
-                                            Download
-                                        </a>
+                                        {report.status=="PAID" && <a href={`${(report.reportfile)}`} className="text-blue-500 hover:underline">
+                                            Show
+                                        </a>}
                                     </td>
                                 </tr>
                             ))}

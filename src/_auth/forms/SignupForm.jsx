@@ -26,7 +26,12 @@ const SignupForm = () => {
     const specialization = e.target.specialization ? e.target.specialization.value : '';
     const confirmPassword = e.target.confirm_password.value;
     const terms = e.target.terms.checked;
-
+     console.log(name,
+      email,
+      password,
+      specialization,
+      confirmPassword,
+      terms);
     if (password !== confirmPassword) {
       setRegisterError('Passwords do not match');
       setLoading(false);
@@ -48,9 +53,9 @@ const SignupForm = () => {
       return;
     }
 
-   createUser(email, password)
-   .then(async(result)=>{
-    console.log(result.user);
+    try {
+      const result = await createUser(email, password);
+     
     const isDoctor = email.includes('doctor');
     const userData = {
       pname: !isDoctor ? name : '',
@@ -59,16 +64,28 @@ const SignupForm = () => {
       doctormail: isDoctor ? email : '',
       specialization: isDoctor ? specialization : '',
     };
-
-    await axios.post('https://myhealth-server-side.vercel.app/users', { withCredentials: true });
-     
-    setSuccess('User created successfully.');
-
-    if (isDoctor) navigate('/dashboard');
-    else navigate('/signin');
-   })
+    const response = await axios.post('http://localhost:4000/users', userData, {
+      withCredentials: true, 
+    });
+    if (response.data) {
+      setSuccess('User created successfully.');
       setLoading(false);
-  };
+      
+      if (isDoctor) {
+        navigate('/dashboard');
+      } else {
+        navigate('/signin');
+      }
+    } else {
+      setRegisterError('Failed to create user in the backend. Please try again.');
+      setLoading(false);
+    }
+  } catch (error) {
+    setRegisterError('Failed to create user. Please try again.');
+    console.error("Registration error: ", error);
+    setLoading(false);
+  }
+};
 
   const handleIsDoctor = (e) => {
     const email = e.target.value;

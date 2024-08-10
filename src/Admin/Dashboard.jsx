@@ -5,6 +5,8 @@ import User_List from './User_List';
 import { AuthContext } from '../_auth/AuthProvider/AuthProvider';
 import { useNavigate } from 'react-router-dom';
 import Doctor_Appoint from './Doctor_Appoint';
+import ReportShow from './Report_show';
+import ReportShow_admin from './ReportShow_admin';
 const Dashboard = () => {
     const navigate=useNavigate();
     const {logOut}=useContext(AuthContext);
@@ -40,6 +42,8 @@ const Dashboard = () => {
                 return <User_List />;
              case 'DoctorAppoint':
                  return <Doctor_Appoint />;
+             case 'ReportShow':
+                 return <ReportShow_admin/>;
            
             default:
                 return   <div className="relative h-full w-full">
@@ -84,6 +88,9 @@ const Dashboard = () => {
                     </li>
                     <li onClick={() => setActiveComponent('DoctorAppoint')} className='my-2 hover:bg-blue-500 cursor-pointer'>
                         Doctor's Appointment
+                    </li>
+                    <li onClick={() => setActiveComponent('ReportShow')} className='my-2 hover:bg-blue-500 cursor-pointer'>
+                    Report Show
                     </li>
                  
                 </ul>

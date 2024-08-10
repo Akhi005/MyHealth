@@ -6,7 +6,7 @@ const Doctor_Appoint = () => {
   const [dataa, setData] = useState([]);
 
   useEffect(() => {
-    axios.get('https://myhealth-server-side.vercel.app/appointment')
+    axios.get('http://localhost:4000/appointment')
       .then(res => setData(res.data))
       .catch(err => console.log(err.message)); 
   });
