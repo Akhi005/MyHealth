@@ -1,7 +1,8 @@
 
 # **MyHealth** <img src="https://github.com/user-attachments/assets/a4cd779c-48b7-4255-bc45-131e3928ec75" alt="MyHealth Icon" width="40" height="40">
 
-MyHealth is a React-based application designed to help users track their health metrics, access personalized health advice, and manage medical records seamlessly. Doctors (administrators) can:
+MyHealth is a React-based application designed to help users track their health metrics, access personalized health advice, and manage medical records seamlessly. 
+Doctors (administrators) can:
 - Write articles on various topics to educate users.
 - View the full list of users.
 - Send reports online.
