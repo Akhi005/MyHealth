@@ -25,11 +25,11 @@ Patients can:
 
 ---
 ## **Features**
-- **Articles**![📖](https://example.com/icons/article-icon.png): Definitions, symptoms, prevention, and medication details for various diseases.
-- **Find Consultant**![🔍](https://example.com/icons/consultant-icon.png): Search for specialized doctors by name and schedule online meetings.
-- **Make Appointment**![📅](https://example.com/icons/appointment-icon.png): Patients can book appointments online and upload prior reports for doctor evaluation.
-- **Online Reports**![🖥️](https://example.com/icons/report-icon.png): Patients receive their reports online, reducing inconvenience.
-- **Home Service & Ambulance**![🏠🚑](https://example.com/icons/service-icon.png): Users can book home healthcare services and ambulance services.
+-- **Articles** 📖: Definitions, symptoms, prevention, and medication details for various diseases.
+- **Find Consultant** 🔍: Search for specialized doctors by name and schedule online meetings.
+- **Make Appointment** 📅: Patients can book appointments online and upload prior reports for doctor evaluation.
+- **Online Reports** 🖥️: Patients receive their reports online, reducing inconvenience.
+- **Home Service & Ambulance** 🏠🚑: Users can book home healthcare services and ambulance services.
 ---
 
 ## **Tech Stack**
