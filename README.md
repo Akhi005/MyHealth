@@ -37,7 +37,7 @@ Patients can:
 ### **Frontend:**
 - **React.js**: Framework for building dynamic user interfaces.
 - **CSS Frameworks**:
-  - **Bootstrap** or **Tailwind CSS**: For modern, responsive styling.
+  - **Bootstrap** and **Tailwind CSS**: For modern, responsive styling.
   - **daisyUI**: Pre-built styled components for enhanced UI.
 - **JavaScript (ES6)**: Used for dynamic behavior and efficient app functionality.
 - **React Router**: Manages app navigation and routing.
@@ -86,7 +86,7 @@ Patients can:
    ```bash
    npm start
    ```
-5. Open the app in your browser at `http://localhost:3000`.
+5. Open the app in your browser at `http://localhost:4000`.
 
 ---
 ## **Usage**
