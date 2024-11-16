@@ -4,15 +4,15 @@
 MyHealth is a React-based application designed to help users track their health metrics, access personalized health advice, and manage medical records seamlessly. 
 
 Doctors (administrators) can:
-- Write articles on various topics to educate users.
+- Write articles on various topics.
 - View the full list of users.
 - Send reports online.
-- Handle unique IDs for every doctor.
-
+  
 Patients can:
 - Set online meetings with doctors at specific times in case of emergencies.
 - Access ambulance and home services.
-
+- Make appointment
+- Find consultant
 ---
 
 ## **Table of Contents**
@@ -67,7 +67,7 @@ Patients can:
 
 ### **Prerequisites:**
 - **Node.js** installed on your machine.
-- **npm** (Node Package Manager) or **yarn**.
+- **npm** (Node Package Manager).
 
 ### **Steps:**
 1. Clone the repository:
