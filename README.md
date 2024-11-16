@@ -25,7 +25,7 @@ Patients can:
 
 ---
 ## **Features**
--- **Articles** 📖: Definitions, symptoms, prevention, and medication details for various diseases.
+- **Articles** 📖: Definitions, symptoms, prevention, and medication details for various diseases.
 - **Find Consultant** 🔍: Search for specialized doctors by name and schedule online meetings.
 - **Make Appointment** 📅: Patients can book appointments online and upload prior reports for doctor evaluation.
 - **Online Reports** 🖥️: Patients receive their reports online, reducing inconvenience.
