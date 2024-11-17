@@ -44,8 +44,9 @@ Patients can:
 - **Firebase Hosting**: For deploying the frontend.
 
 ### **Backend:**
-- **Firebase**:
-  - **Firebase Authentication**: Secure user authentication and management.
+- **Node.js**: Handles server-side functionality.
+- **Express.js**: Backend framework for routing and middleware integration.
+- **Firebase Authentication**: Secure user authentication and management.
 
 ### **Database:**
 - **PostgreSQL**: To store and manage user and application data.
