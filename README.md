@@ -91,7 +91,7 @@ Patients can:
 
 ---
 ## **Usage**
-1. **Signup/Login**: Users can create an account or log in using secure Firebase authentication.
+1. **Signup/Login**: Users can create an account or log in using secure Firebase authentication.When a doctor is going to sign up his/her email should be in xxxx.doctor@gmail.com to identify an admin.
 2. **Explore Features**:
    - Browse articles written by doctors.
    - Search for a doctor and schedule online consultations.
