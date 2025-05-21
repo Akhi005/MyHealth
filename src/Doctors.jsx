@@ -5,20 +5,20 @@ import 'swiper/css';
 import 'swiper/css/effect-coverflow';
 import 'swiper/css/pagination';
 import 'swiper/css/navigation';
-import './swiper.css'
+import '/src/styles/swiper.css'
 import { EffectCoverflow, Pagination, Navigation } from 'swiper/modules';
 const Doctors = () => {
     return (
         <div className='doctors-section'>
             <h1 className='text-center text-4xl font-bold italic'>Meet the Doctors</h1>
-            <img className='ml-96 px-[120px] mt-[-54px]' src="https://i.ibb.co/pXmPwR8/underline.png" />
+           <div className='w-full flex justify-center'><img className=' px-[120px] mt-[-54px]' src="https://i.ibb.co/pXmPwR8/underline.png" /></div> 
             <Swiper  effect={'coverflow'} grabCursor={true} centeredSlides={true} loop={true} slidesPerView={'auto'} coverflowEffect={{
                     rotate: 0, stretch: 0, depth: 100, modifier: 2.5,
                 }}
                 pagination={{ el: '.swiper-pagination', clickable: true }}
                 modules={[EffectCoverflow, Pagination, Navigation]}
                 className='swiper-container '>
-                <div className='flex'>
+                <div className='flex w-full'>
                     <SwiperSlide className='rounded'>
                         <div className="card w-[300px] bg-blue-800">
                             <img src="https://i.ibb.co/9nfPfr5/doctor-1.jpg" />

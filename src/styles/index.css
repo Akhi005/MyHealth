@@ -15,8 +15,3 @@ header {
   background: black;
   overflow: hidden;
 }
-.banner-img {
- object-fit: cover;
- opacity: 0.4;
-}
-

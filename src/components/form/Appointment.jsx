@@ -46,7 +46,8 @@ const Appointment = () => {
                 Fill the form below and we will get back to you soon for more updates and to plan your appointment.
             </p>
             {message && <p className="text-center my-4">{message}</p>}
-            <form className="shadow-2xl bg-gray-200 mx-44 px-36" onSubmit={handleAppointment}>
+            <div className='w-full h-full flex items-center justify-center'>
+                <form className="bg-gray-200 p-12 mt-5 text-xl flex flex-col gap-3" onSubmit={handleAppointment}>
                 <div className='py-2 flex items-center mt-3 pt-4'>
                     <h1>Patient's Name</h1>
                     <input
@@ -82,10 +83,11 @@ const Appointment = () => {
                 </div>
                 <div className='my-2'>
                     <h1>Have you ever applied to our facility before?</h1>
-                    <label className="ml-12 text-lg">
+                    <label className="ml-12 text-lg mt-3">
                         <input
                             type="radio"
                             value="yes"
+                            className='mr-2'
                             checked={answer === 'yes'}
                             onChange={e => setAnswer(e.target.value)}
                             required
@@ -95,7 +97,8 @@ const Appointment = () => {
                     <label className='ml-8 text-lg'>
                         <input
                             type="radio"
-                            value="no"
+                            value="no"  
+                            className='mr-2'
                             checked={answer === 'no'}
                             onChange={e => setAnswer(e.target.value)}
                             required
@@ -150,8 +153,9 @@ const Appointment = () => {
                     <h1>Do you have any report to show?</h1>
                     <input type="file" name="report" id="" className='p-2' />
                 </div>
-                <input type="submit" value="Submit" className='ml-80 bg-violet-600 mt-10 text-white px-12 py-2 rounded mb-4' />
+                <input type="submit" value="Submit" className='bg-yellow-600 mt-10 text-white px-12 py-2 rounded mb-4' />
             </form>
+            </div>
         </div>
     );
 };

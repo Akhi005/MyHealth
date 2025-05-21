@@ -1,11 +1,11 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { Card, CardBody, Typography, Chip } from "@material-tailwind/react";
-import { AuthContext } from '../_auth/AuthProvider/AuthProvider';
-import { ReportsContext } from '../context/ReportsContext';
+import { AuthContext } from '/src/auth/AuthProvider';
+import { ReportContext } from '/src/context/ReportContext';
 
-const Patient_Report = () => {
+const PatientReport = () => {
     const { user } = useContext(AuthContext);
-    const { reports, loading, error } = useContext(ReportsContext);
+    const { reports, loading, error } = useContext(ReportContext);
     const TABLE_HEAD = ["Patient name", "Patient Reg code", "Doctor's name", "Status", "Date", "File"];
     const [filteredReports, setFilteredReports] = useState([]);
     
@@ -29,8 +29,8 @@ const Patient_Report = () => {
         <div>
             <Card className="h-full w-full">
                 <h1 className='my-2 font-bold text-2xl text-center'>Patient Report</h1>
-                <CardBody className="overflow-scroll px-0">
-                    <table className="mt-4 w-full min-w-max table-auto text-left">
+                <CardBody className="overflow-scroll px-24">
+                    <table className="mt-4 w-full min-w-max text-left">
                         <thead>
                             <tr>
                                 {TABLE_HEAD.map((head) => (
@@ -48,7 +48,7 @@ const Patient_Report = () => {
                             </tr>
                         </thead>
                         <tbody>
-                            {filteredReports.map((report, index) => (
+                            {filteredReports ? filteredReports.map((report, index) => (
                                 <tr key={index} className="hover:bg-gray-50">
                                     <td className="p-4">
                                         <Typography
@@ -96,7 +96,7 @@ const Patient_Report = () => {
                                         </a>}
                                     </td>
                                 </tr>
-                            ))}
+                            )):"No report to show"}
                         </tbody>
                     </table>
                 </CardBody>
@@ -105,4 +105,4 @@ const Patient_Report = () => {
     );
 };
 
-export default Patient_Report;
+export default PatientReport;

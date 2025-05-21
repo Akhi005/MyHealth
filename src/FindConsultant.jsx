@@ -24,10 +24,8 @@ const FindConsultant = () => {
       setCurrentTime(newTime);
       const currentHour = newTime.getHours();
       const currentMinutes = newTime.getMinutes();
-      if ((currentHour >= 20 && currentMinutes >= 0) && (currentHour <= 22 && currentMinutes === 0)) {
+      if ((currentHour >= 20  && currentHour < 24 )) {
         setIsMeetingTime(true);
-      } else {
-        setIsMeetingTime(false);
       }
     }, 1000);
 
@@ -75,7 +73,7 @@ const FindConsultant = () => {
                     <td className="p-4">{doctor.doctorcode}</td>
                     <td className="p-4">{doctor.specialization}</td>
                     <td className="p-4">
-                      <a href="https://meet.google.com/">
+                      <a href="https://meet.google.com/" target="_blank" rel="noopener noreferrer">
                         <button disabled={!isMeetingTime} className='bg-orange-400 p-2 rounded'>Set Meeting</button>
                       </a>
                     </td>
@@ -83,7 +81,7 @@ const FindConsultant = () => {
                 ))
               ) : (
                 <tr>
-                  <td colSpan="5" className="p-4 text-center">No doctors found</td>
+                  <td colSpan="5" className="p-4 text-center">Loading...</td>
                 </tr>
               )}
             </tbody>

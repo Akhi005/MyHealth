@@ -1,12 +1,12 @@
 import React, { useContext, useState } from 'react';
-import Create_Content from './Create_Content';
-import Report_Submit from './Report_Submit';
-import User_List from './User_List';
-import { AuthContext } from '../_auth/AuthProvider/AuthProvider';
+import CreateContent from './CreateContent';
+import ReportSubmit from './ReportSubmit';
+import UserList from './UserList';
+import { AuthContext } from '/src/auth/AuthProvider';
 import { useNavigate } from 'react-router-dom';
-import Doctor_Appoint from './Doctor_Appoint';
+import DoctorAppoint from './DoctorAppointment';
 import ReportShow from './Report_show';
-import ReportShow_admin from './ReportShow_admin';
+import ReportShow_admin from './ReportShow';
 const Dashboard = () => {
     const navigate=useNavigate();
     const {logOut}=useContext(AuthContext);
@@ -17,49 +17,31 @@ const Dashboard = () => {
     }
     const renderComponent = () => {
         switch (activeComponent) {
-            case 'Home': return <div className="relative h-full w-full">
-            <img 
-                src="https://i.ibb.co/DrGhY1t/download-3.jpg" 
-                className="absolute top-0 left-0 h-full w-full object-cover" />
-            <div className="flex items-center justify-center h-full ">
-                <h1 className="text-center text-white text-4xl font-bold relative">
-                    <span className="bg-black bg-opacity-50 p-2 m-1">M</span>
-                    <span className="bg-black bg-opacity-50 p-2 m-1">Y</span>
-                    <span className="bg-black bg-opacity-50 p-2 m-1">H</span>
-                    <span className="bg-black bg-opacity-50 p-2 m-1">E</span>
-                    <span className="bg-black bg-opacity-50 p-2 m-1">A</span>
-                    <span className="bg-black bg-opacity-50 p-2 m-1">L</span>
-                    <span className="bg-black bg-opacity-50 p-2 m-1">T</span>
-                    <span className="bg-black bg-opacity-50 p-2 m-1">H</span>
-                </h1>
-            </div>
-        </div>;
             case 'CreateContent':
-                return <Create_Content />;
+                return <CreateContent />;
             case 'ReportSubmit':
-                return <Report_Submit />;
+                return <ReportSubmit />;
             case 'UserList':
-                return <User_List />;
+                return <UserList />;
              case 'DoctorAppoint':
-                 return <Doctor_Appoint />;
+                 return <DoctorAppoint />;
              case 'ReportShow':
                  return <ReportShow_admin/>;
-           
             default:
                 return   <div className="relative h-full w-full">
                 <img 
-                    src="https://i.ibb.co/DrGhY1t/download-3.jpg" 
+                    src="https://i.ibb.co/CpjSV8R0/filling-medical-record-1098-18239.jpg" 
                     className="absolute top-0 left-0 h-full w-full object-cover" />
                 <div className="flex items-center justify-center h-full ">
                     <h1 className="text-center text-white text-4xl font-bold relative">
-                        <span className="bg-black bg-opacity-50 p-2 m-1">M</span>
-                        <span className="bg-black bg-opacity-50 p-2 m-1">Y</span>
-                        <span className="bg-black bg-opacity-50 p-2 m-1">H</span>
-                        <span className="bg-black bg-opacity-50 p-2 m-1">E</span>
-                        <span className="bg-black bg-opacity-50 p-2 m-1">A</span>
-                        <span className="bg-black bg-opacity-50 p-2 m-1">L</span>
-                        <span className="bg-black bg-opacity-50 p-2 m-1">T</span>
-                        <span className="bg-black bg-opacity-50 p-2 m-1">H</span>
+                        <span className="bg-black bg-opacity-50 p-4 m-2">M</span>
+                        <span className="bg-black bg-opacity-50 p-4 m-2">Y</span>
+                        <span className="bg-black bg-opacity-50 p-4 m-2">H</span>
+                        <span className="bg-black bg-opacity-50 p-4 m-2">E</span>
+                        <span className="bg-black bg-opacity-50 p-4 m-2">A</span>
+                        <span className="bg-black bg-opacity-50 p-4 m-2">L</span>
+                        <span className="bg-black bg-opacity-50 p-4 m-2">T</span>
+                        <span className="bg-black bg-opacity-50 p-4 m-2">H</span>
                     </h1>
                 </div>
             </div>
@@ -67,35 +49,32 @@ const Dashboard = () => {
     };
 
     return (
-        <div className='flex h-screen'>
-            <div className='w-1/5 p-4 bg-pink-500 text-white'>
+        <div className='flex'>
+            <div className='w-1/5 p-4 bg-[#021e3b] text-white h-[100vh] text-lg'>
                 <h1 className='font-bold text-2xl mb-4'>Dashboard</h1>
-                <li onClick={() => setActiveComponent('Home')} 
-                    className='my-2 hover:bg-blue-500 cursor-pointer'>
-                        Home
-                    </li>
+                <li onClick={() => setActiveComponent('Home')} className='my-2 p-2 hover:bg-blue-500 cursor-pointer'>Home</li>
                 <hr />
                 <ul className='my-4'>
                     <li onClick={() => setActiveComponent('CreateContent')} 
-                    className='my-2 hover:bg-blue-500 cursor-pointer'>
+                    className='my-2 p-2 hover:bg-blue-500 cursor-pointer'>
                         Create Content
                     </li>
-                    <li onClick={() => setActiveComponent('ReportSubmit')} className='my-2 hover:bg-blue-500 cursor-pointer'>
+                    <li onClick={() => setActiveComponent('ReportSubmit')} className='p-2 my-2 hover:bg-blue-500 cursor-pointer'>
                         Report Submit
                     </li>
-                    <li onClick={() => setActiveComponent('UserList')} className='my-2 hover:bg-blue-500 cursor-pointer'>
+                    <li onClick={() => setActiveComponent('UserList')} className='p-2 my-2 hover:bg-blue-500 cursor-pointer'>
                         Users List
                     </li>
-                    <li onClick={() => setActiveComponent('DoctorAppoint')} className='my-2 hover:bg-blue-500 cursor-pointer'>
+                    <li onClick={() => setActiveComponent('DoctorAppoint')} className='p-2 my-2 hover:bg-blue-500 cursor-pointer'>
                         Doctor's Appointment
                     </li>
-                    <li onClick={() => setActiveComponent('ReportShow')} className='my-2 hover:bg-blue-500 cursor-pointer'>
+                    <li onClick={() => setActiveComponent('ReportShow')} className='p-2 my-2 hover:bg-blue-500 cursor-pointer'>
                     Report Show
                     </li>
                  
-                </ul>
                 <hr />
-                <button className='my-4 btn btn-primary' onClick={handleLogout}>Sign Out</button>
+                <button className='my-4 p-2 hover:bg-blue-500 text-xl w-full flex justify-start' onClick={handleLogout}>Sign Out</button>
+                </ul>
             </div>
             <div className="flex-grow ">
                 {renderComponent()}

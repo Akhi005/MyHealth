@@ -1,40 +1,55 @@
 import React, { useContext } from 'react';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faMoon } from '@fortawesome/free-solid-svg-icons';
-import { Link, NavLink } from 'react-router-dom';
-import { AuthContext } from './_auth/AuthProvider/AuthProvider';
+import { NavLink ,useNavigate } from 'react-router-dom';
+import { AuthContext } from '/src/auth/AuthProvider';
+
 const Header = () => {
     const { user, logOut } = useContext(AuthContext);
+    const navigate = useNavigate();
     const handleLogout = () => {
         logOut()
             .then(() => {
                 console.log("user logged out successfully");
+                navigate('/');
             })
             .catch(error => { console.log(error); })
     }
-    return (
-        <div className='shadow-md w-full bg-blue-800'>
-            <div className='md:px-8 py-4 flex  justify-around'>
-                <h1 className='text-white'><span className='font-bold text-xl text-pink-400'>M</span>y
-                <span className='font-bold text-xl text-pink-400'>H</span>ealth</h1>
-                <ul className='flex space-x-7 cursor-pointer items-center'>
-                    <li className='text-white hover:bg-sky-600 p-1 rounded'><a href="#">Home</a></li>
-                    <li className='text-white hover:bg-sky-600 p-1 rounded'><a href="#about">About</a></li>
-                    <li className='text-white hover:bg-sky-600 p-1 rounded'><Link to="/service_card">Content</Link></li>
-                    <li className='text-white hover:bg-sky-600 p-1 rounded'><a href="#contact">Contact</a></li>
-                </ul>
-                <div>
-                    {user ?
-                        <>
-                            <span className='text-white'>{user.email}</span>
-                            <button onClick={handleLogout} className='bg-sky-600 rounded ml-2 mr-4 px-3 py-1 text-white'><NavLink to='/'>
-                                Sign Out</NavLink></button>
-                        </>
-               : <Link to="/signin" className='bg-sky-600 rounded ml-2 mr-4 px-3 py-2 text-white'>Sign in</Link>}
-           </div>
+   return (
+    <div className='w-full bg-blue-800 min-h-[90px] flex items-center py-2'>
+      <div className='flex flex-col md:flex-row w-full justify-around items-center gap-4 text-xl'>
+        {/* Logo */}
+        <h1 className='text-white text-2xl md:text-3xl'>
+          <span className='font-bold text-blue-400'>M</span>y
+          <span className='font-bold text-blue-400'>H</span>ealth
+        </h1>
+
+        {/* Navigation Links */}
+        <div className='flex flex-wrap justify-center gap-3'>
+          <a className='text-white hover:bg-sky-600 p-2 rounded cursor-pointer' >Home</a>
+          <a className='text-white hover:bg-sky-600 p-2 rounded cursor-pointer' href="#about">About</a>
+          <NavLink className='text-white hover:bg-sky-600 p-2 rounded cursor-pointer' to="/service_card">
+            Content
+          </NavLink>
+          <a className='text-white hover:bg-sky-600 p-2 rounded cursor-pointer' href="#contact">Contact</a>
         </div>
-      </div >
-    );
+
+        {/* User Section */}
+        <div className='flex items-center gap-3'>
+          {user ? (
+            <>
+              <span className='text-white text-sm md:text-base'>{user.email}</span>
+              <button onClick={handleLogout} className='bg-sky-600 px-3 py-1 text-white rounded'>
+                Sign Out
+              </button>
+            </>
+          ) : (
+            <NavLink to="/signin" className='bg-sky-600 px-3 py-2 text-white rounded'>
+              Sign in
+            </NavLink>
+          )}
+        </div>
+      </div>
+    </div>
+  )
 };
 
 export default Header;

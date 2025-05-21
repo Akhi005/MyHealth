@@ -1,15 +1,15 @@
+import React from 'react'
 import { getAuth, signInWithPopup, GoogleAuthProvider, GithubAuthProvider, onAuthStateChanged, signInWithEmailAndPassword, sendPasswordResetEmail } from "firebase/auth";
 import { useContext, useRef, useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faGoogle } from "@fortawesome/free-brands-svg-icons/faGoogle";
 import { faGithub } from "@fortawesome/free-brands-svg-icons/faGithub";
-import auth from "../../firebase.config";
+import auth from "/src/firebase.config";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
-import { faEye, faEyeSlash } from "@fortawesome/free-regular-svg-icons";
-import { AuthContext } from "../AuthProvider/AuthProvider";
-import React from 'react'
+import { AuthContext } from "/src/auth/AuthProvider";
 import axios from 'axios'
+import { Divide } from 'lucide-react'
 const SigninForm = () => {
   const [user, setUser] = useState(null);
   const nav = useNavigate();
@@ -26,9 +26,7 @@ const SigninForm = () => {
     signInWithPopup(auth, googleprovider)
       .then((result) => {
         const user = result.user;
-
         setUser(user);
-        console.log("dfgdgg");
         nav(location?.state ? location?.state : '/');
       })
       .then(error => {
@@ -95,45 +93,47 @@ const SigninForm = () => {
   };
   return (
     <div>
-      <img className='absolute w-full h-100' src="https://i.ibb.co/1MFZqtN/signin-bg.jpg" />
-      <div className="relative pt-12">
-        <form onSubmit={handleLogin} className="bg-violet-400 shadow-2xl h-[560px] relative rounded ml-[450px] p-12 w-[500px]">
-          <h1 className="text-center text-3xl py-3 my-3 font-sans">Sign in </h1>
+      <img className='fixed w-full h-full' src="https://i.ibb.co/1MFZqtN/signin-bg.jpg" />
+      <div className="h-[100vh] w-full flex justify-center items-center text-white" >
+        <form onSubmit={handleLogin} className="bg-blue-900 shadow-2xl h-[660px] relative rounded p-12 w-[500px]">
+          <h1 className="text-center text-3xl py-3 my-3 font-sans ">Sign in </h1>
           <div>
             <h1>Email</h1>
             <input type="email"
-              className="p-2 rounded-xl my-2 w-full"
+              className="p-2 rounded-xl my-2 w-full text-black"
               ref={emailRef}
               name="email" required />
           </div>
           <div>
             <h1>Password</h1>
             <div className="flex">
-              <input type={showpassword ? "text" : "password"} className="p-2 rounded-xl my-2 w-full" name="password" required />
+              <input type={showpassword ? "text" : "password"} className="p-2 text-black rounded-xl my-2 w-full" name="password" required />
               <span className="absolute ml-96 text-gray-500 mt-3" onClick={() => setShowpassword(!showpassword)}>{
                 showpassword ?
                   <FaEyeSlash></FaEyeSlash> : <FaEye></FaEye>
-                //  <FontAwesomeIcon icon={faEye} />:<FontAwesomeIcon icon={faEyeSlash} />
               }</span>
             </div>
           </div>
-          <input className="py-2 px-4 my-4 text-center rounded bg-violet-800 text-white ml-36"
+          <input className="py-2 px-4 my-4 text-center text-lg rounded-xl bg-blue-500 text-white w-full"
             type="submit" value="Sign in" />
           <div>
             <a onClick={handleForgetPassword} href="">Forget Password?</a>
           </div>
           {registerError && <p className="text-red-500">{registerError}</p>}
           {success && <p className="text-green-500">{success}</p>}
-        </form>
-
-        <div className="flex">
-          <p className="ml-[520px] absolute text-white  mt-[-110px]">Sign in with</p>
-          <button className="ml-[640px] text-white bg-pink-500 px-4 py-2 absolute mt-[-120px]" onClick={handleGoogleSignin}><FontAwesomeIcon className="mr-2" icon={faGoogle} />google</button>
-          <button className="ml-[780px] text-white bg-pink-500 px-4 py-2 absolute mt-[-120px]" onClick={handleGithubSignin}><FontAwesomeIcon icon={faGithub} /> github</button>
+        
+       <div className="flex flex-col gap-2 mt-3">
+          <button onClick={handleGoogleSignin} className='p-2 bg-blue-700 text-white rounded-xl'>
+            <FontAwesomeIcon className="mr-2" icon={faGoogle} width={24} />
+            Continue with Google
+          </button>
+          <button onClick={handleGithubSignin} className='p-2 bg-blue-700 text-white rounded-xl'>
+         <FontAwesomeIcon className="mr-2" icon={faGithub} width={24} />
+            Continue with Github
+          </button>
         </div>
-        <div>
-          <p className="absolute mt-[-50px] ml-[500px] text-blue-800 ">Don't have any account? Do <Link to="/signup" className="text-white">Sign up</Link></p>
-        </div>
+          <p className=" mt-5 text-lg">Don't have any account? <Link to="/signup" className="text-white font-semibold mx-2">Sign up</Link></p>
+           </form>
       </div>
     </div>
   )

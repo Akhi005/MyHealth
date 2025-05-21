@@ -17,24 +17,23 @@ app.use(cookieParser());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(fileUpload());
-
 app.use(cors({
   origin: ['http://localhost:5173', 'https://myhealth-792e7.web.app'],
   credentials: true
 }));
-
 const pool = new Pool({
-  user: process.env.DB_user,
-  host: process.env.DB_host,
-  database: process.env.DB_database,
-  password: process.env.DB_password,
-  port: 5432,
+  connectionString: process.env.DATABASE_URL,
+  ssl: {
+    rejectUnauthorized: false,
+  },
 });
 
-pool.connect()
-  .then(() => console.log('Connected to PostgreSQL database'))
-  .catch(err => console.error('Connection error', err.stack));
+pool.on('error', (err) => {
+  console.error('Unexpected error on idle PostgreSQL client:', err);
+  process.exit(-1);
+});
 
+module.exports = pool;
 app.post('/jwt', (req, res) => {
     const user = req.body;
     console.log("Generating token for:", user);
@@ -42,7 +41,6 @@ app.post('/jwt', (req, res) => {
     const token = jwt.sign(user, process.env.ACCESS_TOKEN_SECRET, { expiresIn: '1h' });
     console.log("Generated token:", token);
     res.cookie('token', token, {
-      httpOnly: true,
       secure: false,
       sameSite: 'none',
       maxAge: 30 * 24 * 60 * 60 * 1000,

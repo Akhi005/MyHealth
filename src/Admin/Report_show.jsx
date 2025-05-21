@@ -1,14 +1,13 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { Card, CardBody, Typography } from "@material-tailwind/react";
-import { AuthContext } from '../_auth/AuthProvider/AuthProvider';
-import { ReportsContext } from '../context/ReportsContext';
+import { AuthContext } from '/src/auth/AuthProvider.jsx';
+import { ReportContext } from '/src/context/ReportContext.jsx';
 import axios from 'axios';
 
 const ReportShow = () => {
     const { user } = useContext(AuthContext);
-    const { reports, setReports, error } = useContext(ReportsContext);
+    const { reports, setReports, error } = useContext(ReportContext);
     const [filterReport, setFilterReport] = useState([]);
-    console.log("in report show ",reports);
     useEffect(() => {
         if (user && reports) {
             const filterRep = reports.filter(report => report.pmail === user.email);
@@ -35,7 +34,7 @@ const ReportShow = () => {
 
     return (
         <div>
-            <Card className="h-full w-full">
+            <Card className="h-full w-full text-xl">
                 <h1 className='my-2 font-bold text-2xl text-center'>Patient Report</h1>
                 <CardBody className="overflow-scroll px-0">
                     {error && <p className="text-red-500">{error}</p>}

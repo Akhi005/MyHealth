@@ -1,119 +1,137 @@
-import React from 'react';
-import * as ReactDOM from "react-dom/client";
-import { RouterProvider, createBrowserRouter } from 'react-router-dom';
-import SigninForm from './_auth/forms/SigninForm';
-import SignupForm from './_auth/forms/SignupForm';
-import App from './App';
-import Home from './Home';
-import './index.css';
-import AuthProvider from './_auth/AuthProvider/AuthProvider';
-import Service_Details from './Service_Details';
-import Service_Card from './Service_Card';
-import Diabetes from './Content/Diabetes';
-import HeatStroke from './Content/HeatStroke';
-import HeartAttack from './Content/HeartAttack';
-import ErrorPage from './ErrorPage';
-import Create_Content from './Admin/Create_Content';
-import Appointment from './Services_form/Appointment';
-import Ambulance from './Ambulance';
-import Dashboard from './Admin/Dashboard';
-import Patient_Report from './Services_form/Patient_Report';
-import Report_Submit from './Admin/Report_Submit';
-import Report_show from './Admin/Report_show';
-import { ReportsProvider } from './context/ReportsContext';
-import User_List from './Admin/User_List';
-import Home_Services from './Services_form/Home_Services';
-import FindConsultant from './FindConsultant';
-import PrivateRoutes from './PrivateRoutes';
-import About from './About';
-
+import React from 'react'
+import { createBrowserRouter, RouterProvider } from 'react-router-dom'
+import { ThemeProvider } from "@material-tailwind/react";
+import { createRoot } from 'react-dom/client'
+import SigninForm from '/src/auth/forms/SigninForm'
+import SignupForm from '/src/auth/forms/SignupForm'
+import App from './App'
+import Home from './Home'
+import '/src/styles/index.css'
+import AuthProvider from '/src/auth/AuthProvider'
+import ServiceDetails from './ServiceDetails'
+import ServiceCard from '/src/ServiceCard'
+import Diabetes from '/src/components/Diabetes'
+import HeatStroke from '/src/components/HeatStroke'
+import HeartAttack from './components/HeartAttack'
+import ErrorPage from './ErrorPage'
+import CreateContent from './Admin/CreateContent'
+import Appointment from './components/form/Appointment'
+import Ambulance from './Ambulance'
+import Dashboard from './Admin/Dashboard'
+import PatientReport from './components/form/PatientReport'
+import ReportSubmit from './Admin/ReportSubmit'
+import Report_show from './Admin/Report_show'
+import ReportsProvider from '/src/context/ReportContext'
+import UserList from './Admin/UserList'
+import HomeServices from './components/form/HomeServices'
+import FindConsultant from './FindConsultant'
+import PrivateRoutes from './PrivateRoutes'
+import About from './About'
 
 const router = createBrowserRouter([
   {
-    path: "/",
+    path: '/',
     element: <App />,
-    errorElement:<ErrorPage/>,
+    errorElement: <ErrorPage />,
     children: [
       {
         path: '/',
-        element: <Home />
+        element: <Home />,
       },
       {
         path: '/signin',
-        element: <SigninForm />
+        element: <SigninForm />,
       },
       {
-        path:'/about',
-        element:<About></About>
+        path: '/about',
+        element: <About />,
       },
       {
         path: '/signup',
-        element: <SignupForm />
+        element: <SignupForm />,
       },
       {
         path: '/service_card/:name',
-        element: <Service_Details />
+        element: <ServiceDetails />,
       },
       {
         path: '/service_card',
-        element: <Service_Card />
+        element: <ServiceCard />,
       },
       {
         path: '/heat_stroke',
-        element: <HeatStroke />
+        element: <HeatStroke />,
       },
       {
         path: '/diabetes',
-        element: <Diabetes />
+        element: <Diabetes />,
       },
       {
         path: '/heart_attack',
-        element: <HeartAttack />
-      },{
-        path:'/appointment',
-        element:<PrivateRoutes><Appointment/></PrivateRoutes>
-      },{
-        path:'/ambulance',
-        element:<PrivateRoutes><Ambulance/></PrivateRoutes>
-      },{
-        path:'/content/:title',
-        element:<Service_Details></Service_Details>
-      },{
-        path:'/onlinereport',
-        element:<PrivateRoutes><Patient_Report/></PrivateRoutes>
-      },{
-        path:'/create_content',
-        element:<Create_Content></Create_Content>
-      },{
-        path:'/dashboard',
-        element:<Dashboard></Dashboard>
-      },{
-        path:'/reportsubmit',
-        element:<Report_Submit></Report_Submit>
-      },{
-        path:'/reportshow',
-        element:<Report_show/>
-      },{
-        path:'/users',
-        element:<User_List/>
-      },{
-        path:'/homeservicess',
-        element:<PrivateRoutes><Home_Services/></PrivateRoutes>
-      },{
-        path:'/findconsultant',
-        element:<PrivateRoutes><FindConsultant/></PrivateRoutes>
-      }
-    ]
+        element: <HeartAttack />,
+      },
+      {
+        path: '/appointment',
+        element: <Appointment />
+      },
+      {
+        path: '/ambulance',
+        element: <Ambulance />
+      },
+      {
+        path: '/content/:title',
+        element: <ServiceDetails />,
+      },
+      {
+        path: '/onlinereport',
+        element: <PatientReport />
+      },
+      {
+        path: '/create_content',
+        element: <CreateContent />,
+      },
+      {
+        path: '/dashboard',
+        element: <Dashboard />,
+      },
+      {
+        path: '/reportsubmit',
+        element: <ReportSubmit />,
+      },
+      {
+        path: '/reportshow',
+        element: <Report_show />,
+      },
+      {
+        path: '/users',
+        element: <UserList />,
+      },
+      {
+        path: '/homeservices',
+        element: <HomeServices />
+      },
+      {
+        path: '/findconsultant',
+        element:  <FindConsultant />
+      },
+    ],
   },
-]);
+])
 
-ReactDOM.createRoot(document.getElementById("root")).render(
+const rootElement = document.getElementById('root')
+if (rootElement) {
+  const root = createRoot(rootElement)
+  root.render(
   <React.StrictMode>
-    <AuthProvider>
-   <ReportsProvider>
-      <RouterProvider router={router} />
-    
-    </ReportsProvider>
-    </AuthProvider>
+    <ThemeProvider>
+      <AuthProvider>
+        <ReportsProvider>
+          <RouterProvider router={router} />
+        </ReportsProvider>
+      </AuthProvider>
+    </ThemeProvider>
   </React.StrictMode>
 );
+} else {
+  console.error("Root element with ID 'root' not found.")
+}

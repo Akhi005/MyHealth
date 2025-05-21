@@ -3,7 +3,7 @@ import { Card, CardBody, Typography } from "@material-tailwind/react";
 import axios from 'axios';
 
 const Doctor_Appoint = () => {
-  const [dataa, setData] = useState([]);
+  const [data, setData] = useState([]);
 
   useEffect(() => {
     axios.get('http://localhost:4000/appointment')
@@ -14,9 +14,9 @@ const Doctor_Appoint = () => {
   const TABLE_HEAD = ["Patient name", "DOB", "Gender", "PreviousService", "Phone", "AppointmentDate", "Doctor"];
   return (
     <div>
-      <Card className="h-full w-full">
+      <Card className="h-full w-full ">
         <h1 className='my-2 font-bold text-2xl text-center'>Doctor Appointment</h1>
-        <CardBody className="overflow-scroll px-0">
+        <CardBody className="overflow-scroll px-24">
           <table className="mt-4 w-full min-w-max table-auto text-left">
             <thead>
               <tr>
@@ -35,7 +35,7 @@ const Doctor_Appoint = () => {
               </tr>
             </thead>
             <tbody>
-              {dataa && dataa.map((report, index) => (
+              {data && data.map((report, index) => (
                 <tr key={index}>
                   <td className="p-4">
                     <Typography

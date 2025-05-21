@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
-axios.defaults.withCredentials = true;
-const Service_Card = () => {
+
+const ServiceCard = () => {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -43,4 +43,4 @@ const Service_Card = () => {
   );
 };
 
-export default Service_Card;
+export default ServiceCard;

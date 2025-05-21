@@ -1,26 +1,26 @@
-import React from 'react';
-import Header from './Header';
-import Banner from './Banner';
-import About from './About';
-import Services from './Services';
-import Content from './Content/Content';
-import Doctors from './Doctors';
-import Diagonostic from './Diagonostic';
-import Footer_last from './Footer_last';
+import React from 'react'
+import Header from './Header'
+import Banner from './Banner'
+import About from './About'
+import Services from './Services'
+import Content from './components/Content'
+import Doctors from './Doctors'
+import Diagonostic from './Diagonostic'
+import Footer from './Footer'
 
 const Home = () => {
-    return (
-        <div>
-            <Header></Header>
-            <Banner></Banner>
-            <About></About>
-            <Services></Services>
-            <Content></Content>
-            <Doctors></Doctors>
-            <Diagonostic></Diagonostic>
-            <Footer_last></Footer_last>
-        </div>
-    );
-};
+  return (
+    <div className='w-full'>
+      <Header />
+      <Banner />
+      <About />
+      <Services />
+      <Content />
+      <Doctors />
+      <Diagonostic />
+      <Footer />
+    </div>
+  )
+}
 
-export default Home;
+export default Home

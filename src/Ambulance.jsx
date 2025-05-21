@@ -4,9 +4,9 @@ import { faPhone } from '@fortawesome/free-solid-svg-icons';
 
 const Ambulance = () => {
     return (
-        <div className='my-4 text-center'>
+        <div className='my-4 text-center '>
             <h1 className="text-4xl my-2">Hotline Number to get Ambulance Service</h1>
-           <div className='flex mt-10'>
+           <div className='flex mt-10 w-full h-full flex items-center justify-center h-[80vh]' >
            <img src="https://i.ibb.co/FxqdKt1/Capture.png" alt="" />
             <ul className='p-8 w-[600px] text-4xl'>
                 <div className='shadow-2xl flex flex-col p-4'>

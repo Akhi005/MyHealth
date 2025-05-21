@@ -76,7 +76,7 @@ export default function User_List() {
   }
 
   return (
-    <Box sx={{ width: '100%' }}>
+    <Box sx={{ width: '100%', fontSize: '1.1rem', fontWeight: 600 }}>
       <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
         <Tabs value={value} onChange={handleChange} aria-label="basic tabs example">
           <Tab label="All Users" {...a11yProps(0)} />
@@ -88,25 +88,25 @@ export default function User_List() {
         <TableContainer component={Paper}>
           <Table sx={{ minWidth: 650 }} aria-label="all users table">
             <TableHead className=' bg-gray-300'>
-              <TableRow>
-                <TableCell>Patient Code</TableCell>
-                <TableCell>Patient Name</TableCell>
-                <TableCell>Patient Email</TableCell>
-                <TableCell>Doctor Code</TableCell>
-                <TableCell>Doctor Name</TableCell>
-                <TableCell>Doctor Email</TableCell>
+              <TableRow >
+                <TableCell  sx={{ fontSize: '1.1rem', fontWeight: 600 }}>Patient Code</TableCell>
+                <TableCell sx={{ fontSize: '1.1rem', fontWeight: 600 }}>Patient Name</TableCell>
+                <TableCell sx={{ fontSize: '1.1rem', fontWeight: 600 }}>Patient Email</TableCell>
+                <TableCell sx={{ fontSize: '1.1rem', fontWeight: 600 }}>Doctor Code</TableCell>
+                <TableCell sx={{ fontSize: '1.1rem', fontWeight: 600 }}>Doctor Name</TableCell>
+                <TableCell sx={{ fontSize: '1.1rem', fontWeight: 600 }}>Doctor Email</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
               {alluser.length > 0 ? (
                 alluser.map(user => (
                   <TableRow key={user.pcode || user.doctorcode}>
-                    <TableCell>{user.pcode || '---'}</TableCell>
-                    <TableCell>{user.pname || '---'}</TableCell>
-                    <TableCell>{user.pmail || '---'}</TableCell>
-                    <TableCell>{user.doctorcode || '---'}</TableCell>
-                    <TableCell>{user.doctorname || '---'}</TableCell>
-                    <TableCell>{user.doctormail || '---'}</TableCell>
+                    <TableCell sx={{ fontSize: '1.1rem', fontWeight: 400 }}>{user.pcode || '---'}</TableCell>
+                    <TableCell sx={{ fontSize: '1.1rem', fontWeight: 400 }}>{user.pname || '---'}</TableCell>
+                    <TableCell sx={{ fontSize: '1.1rem', fontWeight: 400 }}>{user.pmail || '---'}</TableCell>
+                    <TableCell sx={{ fontSize: '1.1rem', fontWeight: 400 }}>{user.doctorcode || '---'}</TableCell>
+                    <TableCell sx={{ fontSize: '1.1rem', fontWeight: 400 }}>{user.doctorname || '---'}</TableCell>
+                    <TableCell sx={{ fontSize: '1.1rem', fontWeight: 400 }}>{user.doctormail || '---'}</TableCell>
                   </TableRow>
                 ))
               ) : (
@@ -123,18 +123,18 @@ export default function User_List() {
           <Table sx={{ minWidth: 650 }} aria-label="doctor list table">
             <TableHead className=' bg-gray-300'>
               <TableRow>
-                <TableCell>Doctor Code</TableCell>
-                <TableCell>Doctor Name</TableCell>
-                <TableCell>Doctor Email</TableCell>
+                <TableCell sx={{ fontSize: '1.1rem', fontWeight: 600 }}>Doctor Code</TableCell>
+                <TableCell sx={{ fontSize: '1.1rem', fontWeight: 600 }}>Doctor Name</TableCell>
+                <TableCell sx={{ fontSize: '1.1rem', fontWeight: 600 }}>Doctor Email</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
               {doctorlist.length > 0 ? (
                 doctorlist.map(doctor => (
                   <TableRow key={doctor.doctorcode}>
-                    <TableCell>{doctor.doctorcode}</TableCell>
-                    <TableCell>{doctor.doctorname}</TableCell>
-                    <TableCell>{doctor.doctormail}</TableCell>
+                    <TableCell sx={{ fontSize: '1.1rem', fontWeight: 400 }}>{doctor.doctorcode}</TableCell>
+                    <TableCell sx={{ fontSize: '1.1rem', fontWeight: 400 }}>{doctor.doctorname}</TableCell>
+                    <TableCell sx={{ fontSize: '1.1rem', fontWeight: 400 }}>{doctor.doctormail}</TableCell>
                   </TableRow>
                 ))
               ) : (
@@ -151,18 +151,18 @@ export default function User_List() {
           <Table sx={{ minWidth: 650 }} aria-label="patient list table">
             <TableHead className=' bg-gray-300'>
               <TableRow>
-                <TableCell>Patient Code</TableCell>
-                <TableCell>Patient Name</TableCell>
-                <TableCell>Patient Email</TableCell>
+                <TableCell sx={{ fontSize: '1.1rem', fontWeight: 600 }}>Patient Code</TableCell>
+                <TableCell sx={{ fontSize: '1.1rem', fontWeight: 600 }}>Patient Name</TableCell>
+                <TableCell sx={{ fontSize: '1.1rem', fontWeight: 600 }}>Patient Email</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
               {patientlist.length > 0 ? (
                 patientlist.map(patient => (
                   <TableRow key={patient.pcode}>
-                    <TableCell>{patient.pcode}</TableCell>
-                    <TableCell>{patient.pname}</TableCell>
-                    <TableCell>{patient.pmail}</TableCell>
+                    <TableCell sx={{ fontSize: '1.1rem', fontWeight: 400 }}>{patient.pcode}</TableCell>
+                    <TableCell sx={{ fontSize: '1.1rem', fontWeight: 400 }}>{patient.pname}</TableCell>
+                    <TableCell sx={{ fontSize: '1.1rem', fontWeight: 400 }}>{patient.pmail}</TableCell>
                   </TableRow>
                 ))
               ) : (
