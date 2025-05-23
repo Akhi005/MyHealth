@@ -85,9 +85,9 @@ export default function User_List() {
         </Tabs>
       </Box>
       <CustomTabPanel value={value} index={0}>
-        <TableContainer component={Paper}>
-          <Table sx={{ minWidth: 650 }} aria-label="all users table">
-            <TableHead className=' bg-gray-300'>
+        <TableContainer component={Paper} sx={{maxHeight: '87vh'}}>
+          <Table sx={{ minWidth: 650,maxHeight: '60vh' }} aria-label="all users table">
+            <TableHead className='sticky bg-gray-300'>
               <TableRow >
                 <TableCell  sx={{ fontSize: '1.1rem', fontWeight: 600 }}>Patient Code</TableCell>
                 <TableCell sx={{ fontSize: '1.1rem', fontWeight: 600 }}>Patient Name</TableCell>

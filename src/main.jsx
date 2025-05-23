@@ -1,32 +1,28 @@
 import React from 'react'
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
-import { ThemeProvider } from "@material-tailwind/react";
+import { ThemeProvider } from '@material-tailwind/react'
 import { createRoot } from 'react-dom/client'
 import SigninForm from '/src/auth/forms/SigninForm'
 import SignupForm from '/src/auth/forms/SignupForm'
 import App from './App'
-import Home from './Home'
+import Home from '/src/components/Home'
 import '/src/styles/index.css'
 import AuthProvider from '/src/auth/AuthProvider'
-import ServiceDetails from './ServiceDetails'
-import ServiceCard from '/src/ServiceCard'
-import Diabetes from '/src/components/Diabetes'
-import HeatStroke from '/src/components/HeatStroke'
-import HeartAttack from './components/HeartAttack'
-import ErrorPage from './ErrorPage'
-import CreateContent from './Admin/CreateContent'
-import Appointment from './components/form/Appointment'
-import Ambulance from './Ambulance'
-import Dashboard from './Admin/Dashboard'
-import PatientReport from './components/form/PatientReport'
-import ReportSubmit from './Admin/ReportSubmit'
-import Report_show from './Admin/Report_show'
+import ServiceDetails from '/src/components/home/services/ServiceDetails'
+import ServiceCard from '/src/components/home/services/ServiceCard'
+import ErrorPage from '/src/components/ErrorPage'
+import CreateContent from '/src/admin/CreateContent'
+import Appointment from '/src/components/form/Appointment'
+import Ambulance from '/src/components/home/Ambulance'
+import Dashboard from '/src/admin/Dashboard'
+import PatientReport from '/src/components/form/PatientReport'
+import ReportSubmit from '/src/admin/ReportSubmit'
 import ReportsProvider from '/src/context/ReportContext'
-import UserList from './Admin/UserList'
-import HomeServices from './components/form/HomeServices'
-import FindConsultant from './FindConsultant'
-import PrivateRoutes from './PrivateRoutes'
-import About from './About'
+import UserList from './admin/UserList'
+import HomeServices from '/src/components/form/HomeServices'
+import FindConsultant from '/src/components/form/FindConsultant'
+import PrivateRoutes from '/src/components/PrivateRoutes'
+import About from '/src/components/home/About'
 
 const router = createBrowserRouter([
   {
@@ -59,24 +55,16 @@ const router = createBrowserRouter([
         element: <ServiceCard />,
       },
       {
-        path: '/heat_stroke',
-        element: <HeatStroke />,
-      },
-      {
-        path: '/diabetes',
-        element: <Diabetes />,
-      },
-      {
-        path: '/heart_attack',
-        element: <HeartAttack />,
-      },
-      {
         path: '/appointment',
-        element: <Appointment />
+        element: (
+          <PrivateRoutes>
+            <Appointment />
+          </PrivateRoutes>
+        ),
       },
       {
         path: '/ambulance',
-        element: <Ambulance />
+        element: <Ambulance />,
       },
       {
         path: '/content/:title',
@@ -84,35 +72,59 @@ const router = createBrowserRouter([
       },
       {
         path: '/onlinereport',
-        element: <PatientReport />
+        element: (
+          <PrivateRoutes>
+            <PatientReport />
+          </PrivateRoutes>
+        ),
       },
       {
         path: '/create_content',
-        element: <CreateContent />,
+        element: (
+          <PrivateRoutes>
+            <CreateContent />
+          </PrivateRoutes>
+        ),
       },
       {
         path: '/dashboard',
-        element: <Dashboard />,
+        element: (
+          <PrivateRoutes>
+            <Dashboard />
+          </PrivateRoutes>
+        ),
       },
       {
         path: '/reportsubmit',
-        element: <ReportSubmit />,
-      },
-      {
-        path: '/reportshow',
-        element: <Report_show />,
+        element: (
+          <PrivateRoutes>
+            <ReportSubmit />
+          </PrivateRoutes>
+        ),
       },
       {
         path: '/users',
-        element: <UserList />,
+        element: (
+          <PrivateRoutes>
+            <UserList />
+          </PrivateRoutes>
+        ),
       },
       {
         path: '/homeservices',
-        element: <HomeServices />
+        element: (
+          <PrivateRoutes>
+            <HomeServices />
+          </PrivateRoutes>
+        ),
       },
       {
         path: '/findconsultant',
-        element:  <FindConsultant />
+        element: (
+          <PrivateRoutes>
+            <FindConsultant />
+          </PrivateRoutes>
+        ),
       },
     ],
   },
@@ -122,16 +134,16 @@ const rootElement = document.getElementById('root')
 if (rootElement) {
   const root = createRoot(rootElement)
   root.render(
-  <React.StrictMode>
-    <ThemeProvider>
-      <AuthProvider>
-        <ReportsProvider>
-          <RouterProvider router={router} />
-        </ReportsProvider>
-      </AuthProvider>
-    </ThemeProvider>
-  </React.StrictMode>
-);
+    <React.StrictMode>
+      <ThemeProvider>
+        <AuthProvider>
+          <ReportsProvider>
+            <RouterProvider router={router} />
+          </ReportsProvider>
+        </AuthProvider>
+      </ThemeProvider>
+    </React.StrictMode>
+  )
 } else {
   console.error("Root element with ID 'root' not found.")
 }
