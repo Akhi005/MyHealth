@@ -1,4 +1,3 @@
-
 # **MyHealth**
 MyHealth is a React-based application designed to help users track their health metrics, access personalized health advice, and manage medical records seamlessly. Doctors (administrators) can:
 - Write articles on various topics to educate users.
