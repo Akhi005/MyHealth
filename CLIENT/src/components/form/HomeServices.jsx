@@ -40,10 +40,10 @@ const HomeServices = () => {
     setShowMedicineInput(selectedService === 'Medicine')
   }
   return (
-    <div className="flex h-[100vh] w-full justify-center items-center text-xl">
+    <div className="flex h-screen w-full justify-center items-center text-xl">
       <form onSubmit={handleHomeService} className="flex-2 ">
-        <h1 className="text-center text-3xl my-3 w-full">Home Service</h1>
-        <div className="flex flex-col w-full h-[88vh] md:w-[600px] bg-gray-300 p-5 space-y-3">
+        <h1 className="text-center text-3xl my-2 w-full">Home Service</h1>
+        <div className="flex flex-col w-full h-[95vh] md:w-[600px] bg-gray-300 p-5 space-y-3">
           <label>Patient Name</label>
           <input type="text" name="pname" className="p-2 rounded-xl" required />
           <label>Patient Code</label>
@@ -66,7 +66,7 @@ const HomeServices = () => {
           {showMedicineInput && (
             <>
               <label>Medicine Name</label>
-              <input type="text" name="medicineName" required />
+              <input type="text p-2 rounded-xl" name="medicineName" required />
             </>
           )}
           <input type="submit" className="bg-yellow-600 mt-5 p-2 rounded-2xl text-white" value="Submit" />

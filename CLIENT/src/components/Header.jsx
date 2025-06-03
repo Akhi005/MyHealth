@@ -16,13 +16,10 @@ const Header = () => {
    return (
     <div className='w-full bg-blue-800 min-h-[90px] flex items-center py-2'>
       <div className='flex flex-col md:flex-row w-full justify-around items-center gap-4 text-xl'>
-        {/* Logo */}
         <h1 className='text-white text-2xl md:text-3xl'>
           <span className='font-bold text-blue-400'>M</span>y
           <span className='font-bold text-blue-400'>H</span>ealth
         </h1>
-
-        {/* Navigation Links */}
         <div className='flex flex-wrap justify-center gap-3'>
           <a className='text-white hover:bg-sky-600 p-2 rounded cursor-pointer' >Home</a>
           <a className='text-white hover:bg-sky-600 p-2 rounded cursor-pointer' href="#about">About</a>
@@ -31,8 +28,6 @@ const Header = () => {
           </NavLink>
           <a className='text-white hover:bg-sky-600 p-2 rounded cursor-pointer' href="#contact">Contact</a>
         </div>
-
-        {/* User Section */}
         <div className='flex items-center gap-3'>
           {user ? (
             <>

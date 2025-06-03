@@ -84,7 +84,7 @@ const Dashboard = () => {
 
   return (
     <div className="flex">
-      <div className="w-1/5 p-4 bg-[#021e3b] text-white h-[100vh] text-lg">
+      <div className="w-1/5 p-4 bg-[#021e3b] text-white h-screen text-lg">
         <h1 className="font-bold text-2xl mb-4">Dashboard</h1>
 
         <li onClick={() => setActiveComponent('Home')} className="my-2 p-2 hover:bg-blue-500 cursor-pointer">
